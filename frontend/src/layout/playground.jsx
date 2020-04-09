@@ -93,7 +93,7 @@ const Playground = (props) => {
           ${FormatClearConsole}
           return(everything)
           `)()
-          console.log("ret", ret)
+
           if(ret && ret.length > 0) {
 
             const res = ret.map(r => `${r.datetime} ${r.value.join("\n")}`).join("\n")
@@ -102,7 +102,7 @@ const Playground = (props) => {
           // setResult(eval(code))
           // setResult(Function(`"use strict";return(${code})`)())
         } catch (e) {
-          alert(e)
+          // alert(e)
           if (e instanceof SyntaxError) {
             setResult(e.message);
           }
