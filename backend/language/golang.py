@@ -1,12 +1,21 @@
 import os
-import random
-from pathlib import Path
-import shutil
-curDir = os.getcwd()
-
-def compiler(string):
-    path = os.path.join(curDir, random.random())
-    Path(path).mkdir()
+from subprocess import getstatusoutput
 
 
-    shutil.rmtree(path)
+def compiler(dirPath, string):
+
+    filePath = os.path.join(dirPath, "Demo.go")
+
+
+    with open(filePath, "w+") as fp:
+        fp.write(string)
+
+
+    cmd = f"go run {filePath}"
+
+    print(cmd, string)
+    exitcode, data = getstatusoutput(cmd)
+
+
+
+    return exitcode == 0, data

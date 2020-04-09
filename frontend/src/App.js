@@ -2,7 +2,7 @@ import React from 'react';
 
 import Playground from "./layout/playground";
 
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 
 import Header from "./layout/header";
 import styled from "styled-components";
@@ -20,6 +20,7 @@ const App = () => {
         <Header/>
         <Layout>
           <Switch>
+            <Redirect from="/" to={"/Java"} exact />
               <Route path="/:language" component={Playground} exact={false}/>
           </Switch>
         </Layout>

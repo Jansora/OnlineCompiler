@@ -20,6 +20,7 @@ const Header = (props) => {
               <NavLink to="/java">Java</NavLink>
               <NavLink to="/python">Python</NavLink>
               <NavLink to="/go">Golang</NavLink>
+              <NavLink to="/javascript">Javascript</NavLink>
             </StyledHeaderLeft>
         </StyledHeader>
     )

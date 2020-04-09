@@ -18,22 +18,104 @@ const client = axios.create(
   }
 );
 
+const getDefaultValue = (language) => {
 
+  const hello = `"hello, world!"`;
+  if(language === "python") return `print(${hello}}`
+  if(language === "java") return `public class Demo {
+  public static void main(String[] args) {
+    System.out.println("hello, world!");
+  }
+}
+  `
+  if(language === "javascript") return `console.log(${hello})`
+  return "edit some code here....";
+}
+const FormatInitConsole = `
+let everything = []
+if (console.everything === undefined)
+{
+    console.everything = true;
+
+    console.defaultLog = console.log.bind(console);
+    console.log = function(){
+        everything.push({"type":"console.log", "datetime":Date().toLocaleString().split(" ")[4], "value":Array.from(arguments)});
+        console.defaultLog.apply(console, arguments);
+    }
+    console.defaultError = console.error.bind(console);
+    console.error = function(){
+        everything.push({"type":"console.error", "datetime":Date().toLocaleString().split(" ")[4], "value":Array.from(arguments)});
+        console.defaultError.apply(console, arguments);
+    }
+    console.defaultWarn = console.warn.bind(console);
+    console.warn = function(){
+        everything.push({"type":"console.warn", "datetime":Date().toLocaleString().split(" ")[4], "value":Array.from(arguments)});
+        console.defaultWarn.apply(console, arguments);
+    }
+    console.defaultDebug = console.debug.bind(console);
+    console.debug = function(){
+        everything.push({"type":"console.debug", "datetime":Date().toLocaleString().split(" ")[4], "value":Array.from(arguments)});
+        console.defaultDebug.apply(console, arguments);
+    }
+}`
+const FormatClearConsole = `
+console.everything = undefined
+console.log = console.defaultLog
+console.error = console.defaultError
+console.warn = console.defaultWarn
+console.debug = console.defaultDebug
+`
 const Playground = (props) => {
 
-    const [code, setCode] = useState("edit some code here")
+    const { language } = useParams();
+
+    const [code, setCode] = useState("")
     const [result, setResult] = useState("")
     const [toggle, setToggle] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { language } = useParams();
+
 
     useEffect(() => {
       setToggle(true)
+      setCode(getDefaultValue(language))
       setTimeout(() => setToggle(false))
     }, [language]);
 
     const compiler = () => {
       setLoading(true)
+      if(language === "javascript") {
+        try {
+          // console.log(eval(code))
+          const ret = new Function(`
+          "use strict";
+          ${FormatInitConsole}
+          ${code}
+          ${FormatClearConsole}
+          return(everything)
+          `)()
+          console.log("ret", ret)
+          if(ret && ret.length > 0) {
+
+            const res = ret.map(r => `${r.datetime} ${r.value.join("\n")}`).join("\n")
+            return setResult(res)
+          }
+          // setResult(eval(code))
+          // setResult(Function(`"use strict";return(${code})`)())
+        } catch (e) {
+          alert(e)
+          if (e instanceof SyntaxError) {
+            setResult(e.message);
+          }
+          if (e instanceof TypeError) {
+            setResult(e.message);
+          }
+          // setResult(e)
+        } finally
+        {
+          setLoading(false)
+        }
+        return
+      }
       client.post('compiler', stringify({language, code}))
         .then(response =>  {
           const { data } = response;

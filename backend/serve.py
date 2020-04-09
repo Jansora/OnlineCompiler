@@ -4,6 +4,38 @@ import tornado.ioloop
 import tornado.web
 
 from language.java import compiler as JavaCompiler
+from language.python import compiler as PythonCompiler
+from language.golang import compiler as GoCompiler
+import os
+import random
+from pathlib import Path
+import shutil
+
+curDir = os.getcwd()
+
+compiles = {
+    "java": JavaCompiler,
+    "python": PythonCompiler,
+    "go": GoCompiler,
+}
+
+def wrapper(language, code):
+    subDir = str(random.random()).replace(".", "")
+    dirPath = os.path.join(curDir, subDir)
+
+
+    Path(dirPath).mkdir()
+
+    compile = compiles.get(language)
+    status, data = False, None
+    try:
+        status, data = compile(dirPath, code)
+    except:
+        pass
+    finally:
+        shutil.rmtree(dirPath)
+
+    return status, data
 
 class MainHandler(tornado.web.RequestHandler):
 
@@ -18,7 +50,7 @@ class MainHandler(tornado.web.RequestHandler):
         if(not language or not code):
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
-        status, data = JavaCompiler(code[0].decode("utf-8") )
+        status, data = wrapper(language[0].decode("utf-8"), code[0].decode("utf-8"))
         self.write({'status': status, 'message': data if not status else "", 'data': data})
 
 
