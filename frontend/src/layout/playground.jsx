@@ -28,6 +28,16 @@ const getDefaultValue = (language) => {
   }
 }
   `
+  if (language === "go") return `package main
+
+import (
+\t"fmt"
+)
+
+func main() {
+\tfmt.Println("Hello, playground")
+}
+`
   if(language === "javascript") return `console.log(${hello})`
   return "edit some code here....";
 }
