@@ -21,12 +21,15 @@ const client = axios.create(
 const getDefaultValue = (language) => {
 
   const hello = `"hello, world!"`;
-  if(language === "python") return `print(${hello}}`
-  if(language === "java") return `public class Demo {
+  if(language === "python") return `print(${hello})`
+  if(language === "java") return `import java.util.Collections;
+
+public class Demo {
   public static void main(String[] args) {
-    System.out.println("hello, world!");
+    System.out.println(Collections.singletonList("hello, world!"));
   }
 }
+  
   `
   if (language === "go") return `package main
 
@@ -88,7 +91,8 @@ const Playground = (props) => {
     useEffect(() => {
       setToggle(true)
       setCode(getDefaultValue(language))
-      setTimeout(() => setToggle(false))
+      compiler()
+      setTimeout(() => setToggle(false), 100)
     }, [language]);
 
     const compiler = () => {
@@ -143,7 +147,7 @@ const Playground = (props) => {
     }
 
     return (
-        <Grid columns="equal" container style={{marginTop: 30}}>
+        <Grid columns="equal" style={{marginTop: 30, height: "100%"}}>
           <Grid.Column width={8}>
             <Header as="h3">编码区</Header>
             {
@@ -154,14 +158,14 @@ const Playground = (props) => {
                 language={language}
                 value={code}
                 onChange={setCode}
-                style={{height: 300}}
+                style={{height: 600}}
                 // options={{readOnly}}
               />
             }
 
           </Grid.Column>
           <Grid.Column width={8}>
-            <Header as="h3" style={{marginBottom: 7}}>
+            <Header as="h3" style={{marginBottom: 6}}>
               <Button color="violet" basic size="tiny" onClick={compiler}>运行</Button>
             </Header>
             {
@@ -175,7 +179,7 @@ const Playground = (props) => {
                 language={language}
                 value={result}
                 // onChange={setR}
-                style={{height: 300}}
+                style={{height: 600}}
                 options={{readOnly: true}}
               />
             }

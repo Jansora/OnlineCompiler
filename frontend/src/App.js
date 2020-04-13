@@ -10,7 +10,7 @@ import styled from "styled-components";
 const Layout = styled.main`
   padding-top: var(--header-height);
   height: 100%;
-  width: 100%;
+  //width: 100%;
   margin: 0 50px;
 `;
 
@@ -20,7 +20,7 @@ const App = () => {
         <Header/>
         <Layout>
           <Switch>
-            <Redirect from="/" to={"/Java"} exact />
+            <Redirect from="/" to={"/java"} exact />
               <Route path="/:language" component={Playground} exact={false}/>
           </Switch>
         </Layout>
