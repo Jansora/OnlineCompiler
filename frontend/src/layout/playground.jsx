@@ -91,7 +91,6 @@ const Playground = (props) => {
     useEffect(() => {
       setToggle(true)
       setCode(getDefaultValue(language))
-      compiler()
       setTimeout(() => setToggle(false), 100)
     }, [language]);
 
