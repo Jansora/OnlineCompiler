@@ -6,7 +6,7 @@ RUN cat /etc/apt/sources.list
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get update
 
-RUN apt-get install openjdk-11-jdk golang python3 python3-pip -y
+RUN apt-get install openjdk-11-jdk golang python3 python3-pip nodejs -y
 
 RUN mkdir -p /app
 

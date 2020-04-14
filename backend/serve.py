@@ -6,6 +6,7 @@ import tornado.web
 from language.java import compiler as JavaCompiler
 from language.python import compiler as PythonCompiler
 from language.golang import compiler as GoCompiler
+from language.nodejs import compiler as NodeJsCompiler
 import os
 import random
 from pathlib import Path
@@ -17,6 +18,7 @@ compiles = {
     "java": JavaCompiler,
     "python": PythonCompiler,
     "go": GoCompiler,
+    "node": NodeJsCompiler,
 }
 
 def wrapper(language, code):

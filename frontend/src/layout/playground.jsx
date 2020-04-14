@@ -42,6 +42,7 @@ func main() {
 }
 `
   if(language === "javascript") return `console.log(${hello})`
+  if(language === "node") return `console.log(${hello})`
   return "edit some code here....";
 }
 const FormatInitConsole = `
@@ -154,7 +155,7 @@ const Playground = (props) => {
               <CodeEditor
                 force={false}
                 id={"code-editor-template"}
-                language={language}
+                language={language === "node" ? "javascript" : language}
                 value={code}
                 onChange={setCode}
                 style={{height: 600}}
