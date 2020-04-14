@@ -6,14 +6,24 @@ RUN cat /etc/apt/sources.list
 RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get update
 
-RUN apt-get install openjdk-11-jdk golang python3
+RUN apt-get install openjdk-11-jdk golang python3 python3-pip -y
 
 RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY . /app
+COPY . .
 
-EXPOSE 9002/udp
-EXPOSE 9002/tcp
+RUN ls -l
+
+RUN pip3 list
+
+RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+CMD ["python3", "backend/serve.py"]
+
+
+
+
 
