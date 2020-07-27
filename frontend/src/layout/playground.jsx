@@ -118,7 +118,7 @@ const Playground = (props) => {
     }, [language]);
 
     useEffect(() => {
-      if(args) {
+      if(args.language && args.share) {
         initShare(args)
       }
 
