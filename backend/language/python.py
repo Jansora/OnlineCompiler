@@ -11,7 +11,7 @@ def compiler(dirPath, string):
         fp.write(string)
 
 
-    cmd = f"python {filePath}"
+    cmd = f"python3 {filePath}"
 
     print(cmd, string)
     exitcode, data = getstatusoutput(cmd)
