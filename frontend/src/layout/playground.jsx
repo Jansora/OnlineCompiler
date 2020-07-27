@@ -13,6 +13,7 @@ import axios from 'axios';
 import { parse } from 'qs';
 
 import {stringify} from "qs"
+import Embed from "../component/Embed";
 const client = axios.create(
   {
     baseURL: "/playground/",
@@ -99,7 +100,7 @@ console.debug = console.defaultDebug
 const Playground = (props) => {
 
     const { language } = useParams();
-
+    const embed = Embed()
     const [code, setCode] = useState("")
     const [result, setResult] = useState("")
     const [toggle, setToggle] = useState(false)
@@ -144,7 +145,7 @@ const Playground = (props) => {
           const { data } = response;
           if (data.status){
             origin = window.location.origin
-            const url = `${origin}/${language}?share=${data.data}&language=${language}`
+            const url = `${origin}/${language}?share=${data.data}&language=${language}&embed=true`
             copyToClipboard(url)
             setShareValue(url)
           } else {
@@ -208,7 +209,7 @@ const Playground = (props) => {
     }
 
     return (
-        <Grid columns="equal" style={{marginTop: 30, height: "100%"}}>
+        <Grid columns="equal" style={{marginTop: embed ? 0 : 30, height: "100%"}}>
           <Grid.Column width={8}>
             <Header as="h3">编码区</Header>
             {
