@@ -12,8 +12,6 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY . .
-
 RUN ls -l
 
 RUN pip3 list
