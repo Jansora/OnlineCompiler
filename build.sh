@@ -1,1 +1,1 @@
-docker build -t onlinecompiler:v1 .
+docker build -t onlinecompiler:v2 .

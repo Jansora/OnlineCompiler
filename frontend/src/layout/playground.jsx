@@ -10,6 +10,7 @@ import {useParams} from "react-router-dom"
 import {Button, Grid, Header, Loader} from "semantic-ui-react";
 import CodeEditor from "../component/code-editor/CodeEditor";
 import axios from 'axios';
+import { parse } from 'qs';
 
 import {stringify} from "qs"
 const client = axios.create(
@@ -17,6 +18,22 @@ const client = axios.create(
     baseURL: "/playground/",
   }
 );
+
+const copyToClipboard = (content='拷贝的内容') => {
+  let textArea = document.createElement("textarea");
+  textArea.value = content;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy')
+      ? console.log('上传成功, 已拷贝到剪贴板')
+      : console.log('上传失败') ;
+  } catch (err) {
+    console.error('上传成功, 拷贝到剪贴板时执行异常', err);
+  }
+  document.body.removeChild(textArea);
+}
 
 const getDefaultValue = (language) => {
 
@@ -87,6 +104,10 @@ const Playground = (props) => {
     const [result, setResult] = useState("")
     const [toggle, setToggle] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [shareValue, setShareValue] = useState(null)
+
+
+    const [args] =  useState(parse(window.location.href.split('?')[1]))
 
 
     useEffect(() => {
@@ -94,6 +115,46 @@ const Playground = (props) => {
       setCode(getDefaultValue(language))
       setTimeout(() => setToggle(false), 100)
     }, [language]);
+
+    useEffect(() => {
+      if(args) {
+        initShare(args)
+      }
+
+    }, [args])
+
+    const initShare = (path) => {
+      client.get(`share?share=${args.share}&language=${args.language}`)
+        .then(response =>  {
+          const { data } = response;
+          if (data.status){
+            setCode(data.data)
+          } else {
+            setCode(data.message)
+          }
+        }).catch( e => {
+        setResult("网络错误或服务器异常...")
+      }).finally(()=> {
+        setLoading(false)
+      })
+    }
+    const share = () => {
+      client.post('share', stringify({code, language}))
+        .then(response =>  {
+          const { data } = response;
+          if (data.status){
+            origin = window.location.origin
+            const url = `${origin}/${language}?share=${data.data}&language=${language}`
+            copyToClipboard(url)
+            setShareValue(url)
+          } else {
+          }
+        }).catch( e => {
+        setResult("网络错误或服务器异常...")
+      }).finally(()=> {
+        setLoading(false)
+      })
+    }
 
     const compiler = () => {
       setLoading(true)
@@ -158,7 +219,7 @@ const Playground = (props) => {
                 language={language === "node" ? "javascript" : language}
                 value={code}
                 onChange={setCode}
-                style={{height: 600}}
+                style={{height: 500}}
                 // options={{readOnly}}
               />
             }
@@ -167,6 +228,16 @@ const Playground = (props) => {
           <Grid.Column width={8}>
             <Header as="h3" style={{marginBottom: 6}}>
               <Button color="violet" basic size="tiny" onClick={compiler}>运行</Button>
+              <Button color="green" basic size="tiny" onClick={share}>分享</Button>
+              {
+                shareValue &&
+                <Button as="a" color="green" size="tiny" target="_blank"
+                        href={shareValue}
+                >分享成功, 已拷贝到剪贴板,点击在新窗口打开
+                </Button>
+
+              }
+
             </Header>
             {
               <Loader active={loading} inverted content="解析中..."/>
@@ -179,7 +250,7 @@ const Playground = (props) => {
                 language={language}
                 value={result}
                 // onChange={setR}
-                style={{height: 600}}
+                style={{height: 500}}
                 options={{readOnly: true}}
               />
             }

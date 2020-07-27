@@ -9,6 +9,8 @@
     "axios": "^0.19.2",
     "http-proxy-middleware": "^1.0.3",
     "monaco-editor": "^0.20.0",
+    "monaco-themes": "^0.3.3",
+    "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

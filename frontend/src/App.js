@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 const Layout = styled.main`
   padding-top: var(--header-height);
-  height: 100%;
+  height: calc(100% - var(--header-height));
   //width: 100%;
   margin: 0 50px;
 `;

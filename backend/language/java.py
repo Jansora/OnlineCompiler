@@ -1,11 +1,18 @@
 import os
 from subprocess import getstatusoutput
 import platform
-
+import re
 
 def compiler(dirPath, string):
 
-    filePath = os.path.join(dirPath, "Demo.java")
+
+    pattern = re.findall("public(\s*)class(\s*)(\S+)(\s*){", string)
+
+    filename = pattern[0][2] if  len(pattern) > 0 else  "Demo"
+
+
+    filePath = os.path.join(dirPath, filename + ".java")
+
 
 
     with open(filePath, "w+") as fp:
