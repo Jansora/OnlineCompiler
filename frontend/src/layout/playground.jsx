@@ -209,9 +209,23 @@ const Playground = (props) => {
     }
     if (embed) {
       return (
-        <Grid columns="equal" style={{marginTop: 10}}>
+        <Grid columns="equal" style={{marginTop: 0}}>
+            {
+              !toggle &&
+              <CodeEditor
+                force={false}
+                id={"code-editor-template"}
+                language={language === "node" ? "javascript" : language}
+                value={code}
+                onChange={setCode}
+                style={{height: 400}}
+                // options={{readOnly}}
+              />
+            }
 
-            <Header as="h3">编码区
+          {
+
+            <Header as="h3" style={{margin: "5px 0"}} size="tiny">
               <Button color="violet" basic size="tiny" onClick={compiler} style={{marginLeft: 10}}>运行</Button>
               <Button color="green" basic size="tiny" onClick={share}>分享</Button>
               {
@@ -222,30 +236,16 @@ const Playground = (props) => {
                 </Button>
 
               }
-            </Header>
-            {
-              !toggle &&
-              <CodeEditor
-                force={false}
-                id={"code-editor-template"}
-                language={language === "node" ? "javascript" : language}
-                value={code}
-                onChange={setCode}
-                style={{height: 250}}
-                // options={{readOnly}}
-              />
-            }
 
-          {
-            <Header as="h3" style={{margin:5}}>输出:
               <Loader active={loading} inverted content="解析中..."/>
 
+              <div style={{margin: '8px 3px', whiteSpace: "pre-wrap"}}>
+                输出:
+                {result}
+              </div>
             </Header>
-
           }
-          <div style={{margin: '8px 3px', whiteSpace: "pre-wrap"}}>
-            {result}
-          </div>
+
         </Grid>
       )
     }
