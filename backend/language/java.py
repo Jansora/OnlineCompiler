@@ -6,14 +6,11 @@ import re
 def compiler(dirPath, string):
 
 
-    pattern = re.findall("public(\s*)class(\s*)(\S+)(\s*){", string)
+    pattern = re.findall("public(\s*)class(\s*)(\S+)((<.*>)|())(\s*){", string)
 
     filename = pattern[0][2] if  len(pattern) > 0 else  "Demo"
 
-
     filePath = os.path.join(dirPath, filename + ".java")
-
-
 
     with open(filePath, "w+") as fp:
         fp.write(string)
