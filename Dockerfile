@@ -10,6 +10,8 @@ RUN apt-get update
 
 RUN apt-get install nginx openjdk-11-jdk golang python3 python3-pip nodejs -y
 
+RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 RUN mkdir -p /app
 
 WORKDIR /app
@@ -17,14 +19,6 @@ WORKDIR /app
 COPY . .
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
-
-
-
-RUN ls -l
-
-RUN pip3 list
-
-RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 
 CMD ["sh","-c", "service nginx restart && python3 backend/serve.py"]
