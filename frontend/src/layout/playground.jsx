@@ -207,9 +207,51 @@ const Playground = (props) => {
       })
 
     }
+    if (embed) {
+      return (
+        <Grid columns="equal" style={{marginTop: 10}}>
+
+            <Header as="h3">编码区
+              <Button color="violet" basic size="tiny" onClick={compiler} style={{marginLeft: 10}}>运行</Button>
+              <Button color="green" basic size="tiny" onClick={share}>分享</Button>
+              {
+                shareValue &&
+                <Button as="a" color="green" size="tiny" target="_blank"
+                        href={shareValue}
+                >分享成功, 已拷贝到剪贴板,点击在新窗口打开
+                </Button>
+
+              }
+            </Header>
+            {
+              !toggle &&
+              <CodeEditor
+                force={false}
+                id={"code-editor-template"}
+                language={language === "node" ? "javascript" : language}
+                value={code}
+                onChange={setCode}
+                style={{height: 250}}
+                // options={{readOnly}}
+              />
+            }
+
+          {
+            <Header as="h3" style={{margin:5}}>输出:
+              <Loader active={loading} inverted content="解析中..."/>
+
+            </Header>
+
+          }
+          <div style={{margin: '8px 3px', whiteSpace: "pre-wrap"}}>
+            {result}
+          </div>
+        </Grid>
+      )
+    }
 
     return (
-        <Grid columns="equal" style={{marginTop: embed ? 0 : 30, height: "100%"}}>
+        <Grid columns="equal" style={{marginTop: 30, height: "100%"}}>
           <Grid.Column width={8}>
             <Header as="h3">编码区</Header>
             {
