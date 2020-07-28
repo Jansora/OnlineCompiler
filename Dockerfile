@@ -27,7 +27,7 @@ RUN pip3 list
 RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 
-CMD ["service", "nginx", "start", " && ", "python3", "backend/serve.py"]
+CMD ["sh","-c", "service nginx restart && python3 backend/serve.py"]
 
 
 
