@@ -12,7 +12,9 @@ import random
 from pathlib import Path
 import shutil
 
-curDir = os.getcwd()
+curDir = os.path.join(os.getcwd(), "data")
+if not Path(curDir).is_dir():
+    Path(curDir).mkdir()
 
 compiles = {
     "java": JavaCompiler,
