@@ -207,6 +207,7 @@ const Playground = (props) => {
         if(db) {
           setResult(db.exec(code))
         }
+        setLoading(false)
         return ;
       }
       if(language === "javascript") {
