@@ -22,6 +22,8 @@ const Header = (props) => {
               <NavLink to="/go">Golang</NavLink>
               <NavLink to="/javascript">Browser Javascript</NavLink>
               <NavLink to="/node">Nodejs</NavLink>
+              <NavLink to="/sql">SQL(Base On SQLite)</NavLink>
+
             </StyledHeaderLeft>
           <a target="_blank" rel='noopener noreferrer' href={"https://github.com/Jansora/OnlineCompiler"} style={{float: "right"}}>Github</a>
         </StyledHeader>
