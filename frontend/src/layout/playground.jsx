@@ -290,7 +290,9 @@ const Playground = (props) => {
 
               <div style={{margin: '8px 3px', whiteSpace: "pre-wrap"}}>
                 输出:
-                {result}
+                {
+                  language === "sql" ? RenderSqlResult(result) : result
+                }
               </div>
             </Header>
           }
