@@ -1,1 +1,1 @@
-docker build -t jansora/onlinecompiler:v3 .
+docker build -t jansora/onlinecompiler:v4 .
