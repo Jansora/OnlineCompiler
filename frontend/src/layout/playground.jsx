@@ -99,7 +99,7 @@ console.debug = console.defaultDebug
 `
 const Playground = (props) => {
 
-    const { language } = useParams();
+    const { language, height } = useParams();
     const embed = Embed()
     const [code, setCode] = useState("")
     const [result, setResult] = useState("")
@@ -218,7 +218,7 @@ const Playground = (props) => {
                 language={language === "node" ? "javascript" : language}
                 value={code}
                 onChange={setCode}
-                style={{height: 400}}
+                style={{height: height ? `${height}px` : 400}}
                 // options={{readOnly}}
               />
             }
