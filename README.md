@@ -7,11 +7,9 @@
 
 2. 手动下载本仓库docker镜像 `git clone https://github.com/Jansora/OnlineCompiler.git`
 
-3. 进入git目录 `cd OnlineCompiler`
+3. 进入git目录 `cd OnlineCompiler/deploy`
 
-4. 构建镜像 `bash build.sh`
-
-5. 启动镜像 `sudo docker run -d -p 9002:80 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v2`
+4. 自动镜像 `bash auto.sh`
 
 
 ## 一键安装教程
