@@ -1,5 +1,6 @@
 self.MonacoEnvironment = {
-    baseUrl: '/monaco-editor/0.20.0/min/'
+    baseUrl: 'https://cdn.jansora.com/lib/monaco-editor/0.21.2/min/'
 }
 
-importScripts('/monaco-editor/0.20.0/min/vs/base/worker/workerMain.js') // eslint-disable-line
+
+importScripts('https://cdn.jansora.com/lib/monaco-editor/0.21.2/min/vs/base/worker/workerMain.js') // eslint-disable-line
