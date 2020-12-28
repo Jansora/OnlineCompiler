@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="tencent-4C-8G" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@jansora.com:22" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;" autoUploadExternalChanges="true">
     <serverData>
-      <paths name="tencent-4C-8G">
+      <paths name="root@192.168.2.101:22 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/root/g/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/tmp/pycharm_project_133" local="$PROJECT_DIR$" />
           </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="node_modules" />
-          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="root@jansora.com:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/pycharm_project_124" local="$PROJECT_DIR$" />
+          </mappings>
         </serverdata>
       </paths>
     </serverData>

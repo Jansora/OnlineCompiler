@@ -11,6 +11,7 @@ import os
 import random
 from pathlib import Path
 import shutil
+import json
 
 curDir = os.path.join(os.getcwd(), "data")
 if not Path(curDir).is_dir():
@@ -102,14 +103,13 @@ class ShareHandler(tornado.web.RequestHandler):
         self.write({'status': True, 'message': "", 'data': data})
 
     def post(self, language=None,b=None,c=None):
-        args = self.request.arguments
+        args = json.loads(self.request.body.decode('utf8'))
         language = args.get("language")
         code = args.get("code")
         if not language or not code:
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
-
-        status, data = sharePostWrapper(language[0].decode("utf-8"), code[0].decode("utf-8"))
+        status, data = sharePostWrapper(language, code)
 
         self.write({'status': status, 'message': data if not status else "", 'data': data})
 
@@ -122,15 +122,14 @@ class MainHandler(tornado.web.RequestHandler):
         self.write("get")
 
     def post(self, language=None,b=None,c=None):
-        args = self.request.arguments
+        args = json.loads(self.request.body.decode('utf8'))
         language = args.get("language")
         code = args.get("code")
         if(not language or not code):
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
-        status, data = compileWrapper(language[0].decode("utf-8"), code[0].decode("utf-8"))
+        status, data = compileWrapper(language, code)
         self.write({'status': status, 'message': data if not status else "", 'data': data})
-
 
 
 
