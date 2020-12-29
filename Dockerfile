@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 RUN apt update && apt install ca-certificates -y
 
@@ -10,9 +10,17 @@ RUN apt-get update
 
 RUN apt-get install nginx openjdk-8-jdk golang python3 python3-pip nodejs -y
 
+RUN apt-get install -y locales
+
+RUN locale-gen zh_CN.UTF-8
+ENV LANG zh_CN.UTF-8
+ENV LANGUAGE zh_CN.UTF-8
+ENV LC_ALL zh_CN.UTF-8
+
 RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 RUN mkdir -p /app
+
 
 WORKDIR /app
 

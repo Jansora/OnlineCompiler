@@ -12,6 +12,9 @@ import random
 from pathlib import Path
 import shutil
 import json
+import sys
+import codecs
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 curDir = os.path.join(os.getcwd(), "data")
 if not Path(curDir).is_dir():
@@ -115,28 +118,31 @@ class ShareHandler(tornado.web.RequestHandler):
 
 
 
-class MainHandler(tornado.web.RequestHandler):
+class CompilerHandler(tornado.web.RequestHandler):
 
     def get(self):
 
         self.write("get")
 
     def post(self, language=None,b=None,c=None):
-        args = json.loads(self.request.body.decode('utf8'))
+        args = json.loads(self.request.body.decode('utf-8'))
+        print(f"CompilerHandler post start args={args}")
         language = args.get("language")
         code = args.get("code")
         if(not language or not code):
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
         status, data = compileWrapper(language, code)
-        self.write({'status': status, 'message': data if not status else "", 'data': data})
+        result = {'status': status, 'message': data if not status else "", 'data': data}
+        print(f"CompilerHandler post end result={result}")
+        self.write(result)
 
 
 
 
 def make_app():
     return tornado.web.Application([
-        (r"/playground/compiler", MainHandler),
+        (r"/playground/compiler", CompilerHandler),
         (r"/playground/share", ShareHandler),
     ], debug=True)
 
