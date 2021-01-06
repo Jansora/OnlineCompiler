@@ -14,7 +14,6 @@ import shutil
 import json
 import sys
 import codecs
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 curDir = os.path.join(os.getcwd(), "data")
 if not Path(curDir).is_dir():
@@ -148,5 +147,5 @@ def make_app():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(9002)
+    app.listen(51091)
     tornado.ioloop.IOLoop.current().start()
