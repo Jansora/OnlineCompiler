@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="jansora.com">
+  <component name="PublishConfigData" serverName="l1" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;">
     <serverData>
-      <paths name="deepin">
+      <paths name="l1">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="jansora.com">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/home/ubuntu/github/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/data/Github/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
