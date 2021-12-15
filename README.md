@@ -24,7 +24,12 @@
 
 > 国内请使用[阿里云容器镜像](https://cr.console.aliyun.com/)提速 docker pull registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:5.0
 > sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:v5
+
+
 # 验证安装成功
+> /app/data 为临时数据存放
+
+启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v5`
 
 浏览器输入 localhost:9003 即可看到启动成功
 
