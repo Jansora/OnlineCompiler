@@ -10,9 +10,7 @@ import {useParams} from "react-router-dom"
 import {Button, Grid, Header, Loader} from "semantic-ui-react";
 import CodeEditor from "../component/code-editor/CodeEditor";
 import axios from 'axios';
-import { parse } from 'qs';
-
-import {stringify} from "qs"
+import {parse} from 'qs';
 import Embed from "../component/Embed";
 
 import initSqlJs from "sql.js";
@@ -160,7 +158,7 @@ const Playground = (props) => {
       if(language === "sql" && db == null) {
         initSqlJs(
           {
-            locateFile: file => `https://cdn.bootcdn.net/ajax/libs/sql.js/1.3.0/dist/${file}`
+            locateFile: file => `https://cdn.jansora.com/lib/sql.js/dist/1.6.1/${file}`
           }
         )
           .then(SQL => setDb(new SQL.Database()))
