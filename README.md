@@ -11,7 +11,6 @@
 
 4. 构建镜像 `docker build -t jansora/onlinecompiler:v5 .`
 
-5. 启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v4`
 
 
 
@@ -19,8 +18,6 @@
 
 1. 创建应用数据目录 `mkdir /app && cd /app`
 2. 拉取镜像 `docker pull jansora/onlinecompiler:v5`
-
-3. 启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v5`
 
 > 国内请使用[阿里云容器镜像](https://cr.console.aliyun.com/)提速 docker pull registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:5.0
 > sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:v5
