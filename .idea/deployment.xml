@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="tencent-4C-8G" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;" autoUploadExternalChanges="true" showAutoUploadSettingsWarning="false">
+  <component name="PublishConfigData" serverName="l1" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;">
     <serverData>
-      <paths name="tencent-4C-8G">
+      <paths name="l1">
         <serverdata>
           <mappings>
-            <mapping deploy="/storage/g/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/data/Github/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
     </serverData>
-    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>
