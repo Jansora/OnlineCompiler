@@ -184,7 +184,7 @@ const Playground = (props) => {
       })
     }
     const share = () => {
-      client.post('share', stringify({code, language}))
+      client.post('share', {code, language})
         .then(response =>  {
           const { data } = response;
           if (data.status){
@@ -243,7 +243,7 @@ const Playground = (props) => {
         }
         return
       }
-      client.post('compiler', stringify({language, code}))
+      client.post('compiler', {language, code})
         .then(response =>  {
           const { data } = response;
           if (data.status){

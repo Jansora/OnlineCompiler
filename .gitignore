@@ -28,4 +28,6 @@ backend/data
 
 yarn.lock
 
+/update.py
+
 .idea

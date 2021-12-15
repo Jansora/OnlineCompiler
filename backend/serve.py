@@ -11,6 +11,9 @@ import os
 import random
 from pathlib import Path
 import shutil
+import json
+import sys
+import codecs
 
 curDir = os.path.join(os.getcwd(), "data")
 if not Path(curDir).is_dir():
@@ -102,46 +105,47 @@ class ShareHandler(tornado.web.RequestHandler):
         self.write({'status': True, 'message': "", 'data': data})
 
     def post(self, language=None,b=None,c=None):
-        args = self.request.arguments
+        args = json.loads(self.request.body.decode('utf8'))
         language = args.get("language")
         code = args.get("code")
         if not language or not code:
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
-
-        status, data = sharePostWrapper(language[0].decode("utf-8"), code[0].decode("utf-8"))
+        status, data = sharePostWrapper(language, code)
 
         self.write({'status': status, 'message': data if not status else "", 'data': data})
 
 
 
-class MainHandler(tornado.web.RequestHandler):
+class CompilerHandler(tornado.web.RequestHandler):
 
     def get(self):
 
         self.write("get")
 
     def post(self, language=None,b=None,c=None):
-        args = self.request.arguments
+        args = json.loads(self.request.body.decode('utf-8'))
+        print(f"CompilerHandler post start args={args}")
         language = args.get("language")
         code = args.get("code")
         if(not language or not code):
             self.write({'status': False, 'message': '参数不能为空', 'data': None})
 
-        status, data = compileWrapper(language[0].decode("utf-8"), code[0].decode("utf-8"))
-        self.write({'status': status, 'message': data if not status else "", 'data': data})
-
+        status, data = compileWrapper(language, code)
+        result = {'status': status, 'message': data if not status else "", 'data': data}
+        print(f"CompilerHandler post end result={result}")
+        self.write(result)
 
 
 
 
 def make_app():
     return tornado.web.Application([
-        (r"/playground/compiler", MainHandler),
+        (r"/playground/compiler", CompilerHandler),
         (r"/playground/share", ShareHandler),
     ], debug=True)
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(9002)
+    app.listen(51091)
     tornado.ioloop.IOLoop.current().start()

@@ -17,7 +17,7 @@ def compiler(dirPath, string):
 
 
     operation = "set" if platform.system() == "Windows" else "export"
-    cmd = f"cd {dirPath} && {operation} CLASSPATH={dirPath} && javac {filePath} && java {filename}"
+    cmd = f"cd {dirPath} && {operation} CLASSPATH={dirPath} && javac {filePath} && java -Dfile.encoding=UTF-8 {filename}"
 
     print(cmd, string)
     exitcode, data = getstatusoutput(cmd)
