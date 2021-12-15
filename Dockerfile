@@ -16,7 +16,9 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY . .
+COPY ./backend ./backend
+
+COPY ./frontend ./frontend
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 

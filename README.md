@@ -1,7 +1,7 @@
 # OnlineCompiler
 在线编译,运行Java, Golang, Python等..
 
-## 手动安装教程
+## 手动打包 docker 镜像
 
 1. 创建应用数据目录 `mkdir /app && cd /app`
 
@@ -13,8 +13,7 @@
 
 5. 启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v4`
 
-
-## 一键安装教程
+## 从 github docker 镜像
 
 1. 创建应用数据目录 `mkdir /app && cd /app`
 2. 拉取镜像 `docker pull jansora/onlinecompiler:v4`
