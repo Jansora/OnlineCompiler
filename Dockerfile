@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt update && apt install ca-certificates -y
 
-COPY ./deploy/dependencies/sources.list /etc/apt/sources.list
+COPY ./sources.list /etc/apt/sources.list
 
 RUN cat /etc/apt/sources.list
 RUN rm -rf /var/lib/apt/lists/*
