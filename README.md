@@ -30,7 +30,7 @@
 
 启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v5`
 
-> 使用 阿里云容器镜像 请把上述命令的 `jansora/onlinecompiler:v5` 替换为 `registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:v5`
+> 使用 阿里云容器镜像 请把上述命令的 `jansora/onlinecompiler:v5` 替换为 `registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:5.0`
 
 
 > /app/data 为临时数据存放, 去掉也无妨
