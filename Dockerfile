@@ -1,4 +1,4 @@
-1FROM ubuntu:20.04
+FROM ubuntu:20.04
 
 # 解决中文乱码问题
 ENV LANG C.UTF-8
