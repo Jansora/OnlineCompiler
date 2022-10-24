@@ -1,19 +1,16 @@
-import tornado
+import json
+import os
+import shutil
+from pathlib import Path
 
+import tornado
 import tornado.ioloop
 import tornado.web
 
-from language.java import compiler as JavaCompiler
-from language.python import compiler as PythonCompiler
 from language.golang import compiler as GoCompiler
+from language.java import compiler as JavaCompiler
 from language.nodejs import compiler as NodeJsCompiler
-import os
-import random
-from pathlib import Path
-import shutil
-import json
-import sys
-import codecs
+from language.python import compiler as PythonCompiler
 
 curDir = os.path.join(os.getcwd(), "data")
 if not Path(curDir).is_dir():
@@ -147,5 +144,5 @@ def make_app():
 
 if __name__ == "__main__":
     app = make_app()
-    app.listen(51091)
+    app.listen(9002)
     tornado.ioloop.IOLoop.current().start()

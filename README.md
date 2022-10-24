@@ -9,7 +9,7 @@
 
 3. 进入git目录 `cd OnlineCompiler`
 
-4. 构建镜像 `docker build -t jansora/onlinecompiler:v5 .`
+4. 构建镜像 `docker build -t jansora/onlinecompiler:v6 .`
 
 
 
@@ -17,20 +17,14 @@
 ## 从 docker 镜像
 
 1. 创建应用数据目录 `mkdir /app && cd /app`
-2. 拉取镜像 `docker pull jansora/onlinecompiler:v5`
-
-> 国内请使用 [阿里云容器镜像](https://cr.console.aliyun.com/) 提速
-> `docker pull registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:5.0`
-
+2. 拉取镜像 `docker pull jansora/onlinecompiler:v6`
 
 # 验证安装成功
 
 
 
 
-启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v5`
-
-> 使用 阿里云容器镜像 请把上述命令的 `jansora/onlinecompiler:v5` 替换为 `registry.cn-shanghai.aliyuncs.com/jansora/onlinecompiler:5.0`
+启动镜像 `sudo docker run -d -p 9003:9003 --name onlinecompiler -v /app/data:/app/data jansora/onlinecompiler:v6`
 
 
 > /app/data 为临时数据存放, 去掉也无妨
