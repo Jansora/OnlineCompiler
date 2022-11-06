@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: onlinecompiler-service
+spec:
+  type: ClusterIP
+  selector:
+    app: onlinecompiler
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 9003
+      name: http

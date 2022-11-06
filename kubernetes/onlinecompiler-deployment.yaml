@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: onlinecompiler
+
+spec:
+  selector:
+    matchLabels:
+      app: onlinecompiler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 20
+      maxUnavailable: 20
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: onlinecompiler
+    spec:
+
+      containers:
+        - name: onlinecompiler
+          image: jansora/onlinecompiler:v6
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9003
+          volumeMounts:
+            - name: nfs-pvc
+              subPath: 'onlinecompiler'
+              mountPath: "/app/data"
+      volumes:
+        - name: nfs-pvc
+          persistentVolumeClaim:
+            claimName: nfs-pvc
