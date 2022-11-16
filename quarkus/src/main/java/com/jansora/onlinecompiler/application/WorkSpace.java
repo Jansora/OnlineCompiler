@@ -11,9 +11,9 @@ import java.nio.file.Paths;
  */
 public interface WorkSpace {
 
-    default String getCwd(String content) {
-//        String dir = Paths.get("/app","data", String.valueOf(content.hashCode()).replace("-", "")).toString();
-        String dir = Paths.get("/Users", "jansora", "tmp","app","data", String.valueOf(content.hashCode()).replace("-", "")).toString();
+    default String getCwd() {
+//        String dir = Paths.get("/app","data").toString();
+        String dir = Paths.get("/Users", "jansora", "tmp","app","data").toString();
         FileUtils.mkdir(dir);
         return dir;
     }

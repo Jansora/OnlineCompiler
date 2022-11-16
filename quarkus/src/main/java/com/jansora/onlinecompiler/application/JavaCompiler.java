@@ -2,7 +2,6 @@ package com.jansora.onlinecompiler.application;
 
 import com.jansora.onlinecompiler.exception.BaseAppException;
 import com.jansora.onlinecompiler.exception.system.CommandException;
-import com.jansora.onlinecompiler.exception.system.NotImplementException;
 import com.jansora.onlinecompiler.payload.ResultDto;
 import com.jansora.onlinecompiler.util.CmdUtils;
 import com.jansora.onlinecompiler.util.FileUtils;
@@ -38,8 +37,8 @@ public class JavaCompiler implements Compiler {
 
         if (pathMatcher.find()) {
             String filename = code.substring(pathMatcher.start(), pathMatcher.end() - 1).split("class")[1].trim() + ".java";
-            String cwdPath = getCwd(code);
-            String filePath = Paths.get(cwdPath, filename).toString();
+            String cwdPath = getCwd();
+            String filePath = Paths.get(cwdPath, "compiler", String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
             FileUtils.writeFile(new File(filePath), code, false);
 //            String operation = System.getProperty("os.name").toLowerCase().indexOf("windows") > 0 ? "set" : "export";
 //            String cmd = "cd " + cwdPath +

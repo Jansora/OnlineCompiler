@@ -5,14 +5,16 @@ import com.jansora.onlinecompiler.application.*;
 import com.jansora.onlinecompiler.exception.BaseAppException;
 import com.jansora.onlinecompiler.payload.CodeReq;
 import com.jansora.onlinecompiler.payload.ResultDto;
+import com.jansora.onlinecompiler.util.FileUtils;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * @description:
@@ -51,7 +53,7 @@ public class OnlineCompilerResource {
         return javaCompiler;
     }
 
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/playground/compiler")
@@ -59,4 +61,34 @@ public class OnlineCompilerResource {
         return getCompiler(req.getLanguage()).compile(req.getCode());
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/playground/share")
+    public ResultDto share(CodeReq req) throws BaseAppException {
+
+        String cwdPath = javaCompiler.getCwd();
+        String fileName = UUID.randomUUID().toString();
+        FileUtils.writeFile(Paths.get(cwdPath, "share", req.getLanguage(), fileName).toFile(), req.getCode(), false);
+        return ResultDto.SUCCESS(fileName);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/playground/share")
+    public ResultDto share(String share, String language) throws BaseAppException, IOException {
+
+        String cwdPath = javaCompiler.getCwd();
+        String fileName = UUID.randomUUID().toString();
+        try {
+            String content = Files.readString(Paths.get(cwdPath, "share", language, fileName));
+            return ResultDto.SUCCESS(content);
+        }
+        catch (Exception e) {
+            System.out.println();
+        }
+
+
+        return ResultDto.FAIL("404", "未找到该资源");
+    }
 }

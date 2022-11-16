@@ -21,7 +21,7 @@ spec:
 
       containers:
         - name: onlinecompiler
-          image: jansora/onlinecompiler:v6
+          image: ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
           imagePullPolicy: Always
           ports:
             - containerPort: 9003

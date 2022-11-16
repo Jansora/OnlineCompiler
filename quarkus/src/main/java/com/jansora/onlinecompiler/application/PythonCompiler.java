@@ -29,8 +29,8 @@ public class PythonCompiler implements Compiler {
     public ResultDto compile(String code) throws BaseAppException {
 
         String filename = "Demo.py";
-        String cwdPath = getCwd(code);
-        String filePath = Paths.get(cwdPath, filename).toString();
+        String cwdPath = getCwd();
+        String filePath = Paths.get(cwdPath, "compiler", String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
         FileUtils.writeFile(new File(filePath), code, false);
         return CmdUtils.syncRun(cwdPath, "python", filename);
 

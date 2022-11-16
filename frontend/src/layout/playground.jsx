@@ -173,7 +173,7 @@ const Playground = (props) => {
           if (data.status){
             setCode(data.data)
           } else {
-            setCode(data.message)
+            setCode(data.errorDesc)
           }
         }).catch( e => {
         setResult("网络错误或服务器异常...")
@@ -247,7 +247,7 @@ const Playground = (props) => {
           if (data.status){
             setResult(data.data)
           } else {
-            setResult(data.message)
+            setResult(data.errorDesc)
           }
         }).catch( e => {
           setResult("网络错误或服务器异常...")
