@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/OnlineCompiler.iml" filepath="$PROJECT_DIR$/.idea/OnlineCompiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quarkus/getting-started.iml" filepath="$PROJECT_DIR$/quarkus/getting-started.iml" />
     </modules>
   </component>
 </project>
