@@ -1,6 +1,14 @@
 package com.jansora.onlinecompiler.application;
 
+import com.jansora.onlinecompiler.exception.BaseAppException;
+import com.jansora.onlinecompiler.exception.system.CommandException;
 import com.jansora.onlinecompiler.exception.system.NotImplementException;
+import com.jansora.onlinecompiler.payload.ResultDto;
+import com.jansora.onlinecompiler.util.FileUtils;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.Base64;
 
 /**
  * @description:
@@ -13,8 +21,14 @@ public interface Compiler {
         throw new NotImplementException();
     }
 
+    default String getCwd(String content) {
+        String dir = Paths.get("/Users", "jansora", "tmp","app","data", String.valueOf(content.hashCode()).replace("-", "")).toString();
+        FileUtils.mkdir(dir);
+        return dir;
+    }
+
     /**
      * 编译代码
      */
-    String compile(String code);
+    ResultDto compile(String code) throws BaseAppException;
 }
