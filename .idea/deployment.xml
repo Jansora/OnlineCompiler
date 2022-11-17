@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="l1" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;">
+  <component name="PublishConfigData" serverName="md-ubuntu" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;node_modules;target;build;" confirmBeforeUploading="false">
+    <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="l1">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/data/Github/OnlineCompiler" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="md-ubuntu">
         <serverdata>
           <mappings>
             <mapping deploy="/data/Github/OnlineCompiler" local="$PROJECT_DIR$" web="/" />

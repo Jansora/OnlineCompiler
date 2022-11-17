@@ -19,7 +19,7 @@ import RenderSqlResult from "./renderSqlResult";
 
 const client = axios.create(
   {
-    baseURL: "/playground/",
+    baseURL: "/api/playground/",
   }
 );
 

@@ -4,19 +4,18 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import {BrowserRouter} from 'react-router-dom';
+import {HashRouter} from 'react-router-dom';
 
 
 import GlobalColors from "./styled/GlobalColors";
 import GlobalStyle from "./styled/GlobalStyles";
 
 
-
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <GlobalStyle/><GlobalColors/>
         <App/>
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('root')
 );
 

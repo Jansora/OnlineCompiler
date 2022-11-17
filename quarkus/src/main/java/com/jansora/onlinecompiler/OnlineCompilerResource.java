@@ -53,7 +53,7 @@ public class OnlineCompilerResource {
         return javaCompiler;
     }
 
-    @PUT
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/playground/compiler")
@@ -74,14 +74,14 @@ public class OnlineCompilerResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/playground/share")
-    public ResultDto share(String share, String language) throws BaseAppException, IOException {
+    public ResultDto share(@QueryParam("share") String share, @QueryParam("language") String language) throws BaseAppException, IOException {
 
         String cwdPath = javaCompiler.getCwd();
-        String fileName = UUID.randomUUID().toString();
         try {
-            String content = Files.readString(Paths.get(cwdPath, "share", language, fileName));
+            String content = Files.readString(Paths.get(cwdPath, "share", language, share));
             return ResultDto.SUCCESS(content);
         }
         catch (Exception e) {

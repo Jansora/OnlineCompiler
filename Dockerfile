@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ccr.ccs.tencentyun.com/jansora/onlinecompiler_dependencies:1.0
 
 # 解决中文乱码问题
 ENV LANG C.UTF-8
@@ -16,6 +16,8 @@ RUN apt-get update
 RUN apt update
 RUN apt install tzdata -y
 
+RUN apt-get install openjdk-17-jdk golang python3 nodejs -y
+
 
 # 添加时区环境变量，亚洲，上海
 ENV TimeZone=Asia/Shanghai
@@ -25,22 +27,23 @@ RUN echo $TimeZone > /etc/timezone
 
 
 
-RUN apt-get install nginx openjdk-17-jdk golang python3 python3-pip nodejs -y
 
-RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
+#RUN pip3 install tornado -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY ./backend ./backend
+COPY ./quarkus/target/onlinecompiler-1.0.0-SNAPSHOT-runner ./quarkus-onlinecompiler
 
-COPY ./frontend ./frontend
+RUN chmod 755 ./quarkus-onlinecompiler
+#COPY ./frontend ./frontend
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
+
+#COPY ./nginx.conf /etc/nginx/nginx.conf
 
 
-CMD ["sh","-c", "service nginx restart && python3 backend/serve.py"]
+CMD ["./quarkus-onlinecompiler"]
 
 
 
