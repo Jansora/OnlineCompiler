@@ -29,10 +29,11 @@ public class PythonCompiler implements Compiler {
     public ResultDto compile(String code) throws BaseAppException {
 
         String filename = "Demo.py";
-        String cwdPath = Paths.get(getCwd(), "compiler").toString();
-        String filePath = Paths.get(cwdPath, String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
+        String cwdPath = Paths.get(getCwd(), String.valueOf(code.hashCode()).replace("-", "")).toString();
+        FileUtils.mkdir(cwdPath);
+        String filePath = Paths.get(cwdPath, filename).toString();
         FileUtils.writeFile(new File(filePath), code, false);
-        return CmdUtils.syncRun(cwdPath, "python", filename);
+        return CmdUtils.syncRun(cwdPath, "python3", filename);
 
     }
 }

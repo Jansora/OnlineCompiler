@@ -29,8 +29,9 @@ public class NodeCompiler implements Compiler {
 
 
         String filename = "Demo.js";
-        String cwdPath = Paths.get(getCwd(), "compiler").toString();
-        String filePath = Paths.get(cwdPath, String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
+        String cwdPath = Paths.get(getCwd(), String.valueOf(code.hashCode()).replace("-", "")).toString();
+        FileUtils.mkdir(cwdPath);
+        String filePath = Paths.get(cwdPath, filename).toString();
         FileUtils.writeFile(new File(filePath), code, false);
         return CmdUtils.syncRun(cwdPath, "node", filename);
 

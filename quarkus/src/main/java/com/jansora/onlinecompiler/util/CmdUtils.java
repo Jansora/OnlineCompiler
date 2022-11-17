@@ -45,6 +45,8 @@ public class CmdUtils {
             boolean status = exitCode == 0;
             ResultDto result = status ? ResultDto.SUCCESS() : ResultDto.FAIL(new CommandException());
             result.setData(sb.toString());
+            System.out.println("cmd exec result: " + result.getData());
+
             return result;
 
 
