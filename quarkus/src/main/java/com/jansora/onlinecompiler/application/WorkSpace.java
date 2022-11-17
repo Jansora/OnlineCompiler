@@ -13,7 +13,8 @@ public interface WorkSpace {
 
     default String getCwd() {
 //        String dir = Paths.get("/app","data").toString();
-        String dir = Paths.get("/Users", "jansora", "tmp","app","data").toString();
+        String baseDir = null != System.getenv("ONLINE_COMPILER_PWD") ? System.getenv("ONLINE_COMPILER_PWD") : System.getenv("PWD");
+        String dir = Paths.get(baseDir,"data").toString();
         FileUtils.mkdir(dir);
         return dir;
     }

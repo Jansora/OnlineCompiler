@@ -37,8 +37,8 @@ public class JavaCompiler implements Compiler {
 
         if (pathMatcher.find()) {
             String filename = code.substring(pathMatcher.start(), pathMatcher.end() - 1).split("class")[1].trim() + ".java";
-            String cwdPath = getCwd();
-            String filePath = Paths.get(cwdPath, "compiler", String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
+            String cwdPath = Paths.get(getCwd(), "compiler").toString();
+            String filePath = Paths.get(cwdPath, String.valueOf(code.hashCode()).replace("-", ""), filename).toString();
             FileUtils.writeFile(new File(filePath), code, false);
 //            String operation = System.getProperty("os.name").toLowerCase().indexOf("windows") > 0 ? "set" : "export";
 //            String cmd = "cd " + cwdPath +

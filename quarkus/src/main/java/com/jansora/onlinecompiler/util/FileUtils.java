@@ -9,12 +9,7 @@ package com.jansora.onlinecompiler.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
@@ -58,14 +53,14 @@ public class FileUtils {
             writer = new FileWriter(file, append);
             writer.write(content);
         } catch (IOException e) {
-            LOGGER.error("writeFile writer.write(content) writer.close() failed");
+            LOGGER.error("writeFile writer.write(content) writer.close() failed", e);
             status = false;
         } finally {
             if (writer != null) {
                 try {
                     writer.flush();
                 } catch (IOException e) {
-                    LOGGER.error("writeFile writer.flush() failed");
+                    LOGGER.error("writeFile writer.flush() failed", e);
                     status = false;
                 }
                 try {

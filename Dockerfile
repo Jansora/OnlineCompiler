@@ -1,5 +1,7 @@
 FROM ccr.ccs.tencentyun.com/jansora/onlinecompiler_dependencies:1.0
 
+ENV ONLINE_COMPILER_PWD /app
+
 RUN mkdir -p /app
 
 WORKDIR /app
