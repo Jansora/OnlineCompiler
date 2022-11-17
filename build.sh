@@ -17,9 +17,12 @@ cd quarkus && quarkus build --native -Dquarkus.native.container-build=true -Dqua
 docker build -t onlinecompiler .
 
 docker tag onlinecompiler ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
-docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
+  docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
 
 #docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:v5 .
 
 
 #docker run --rm -it --entrypoint bash ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
+
+
+#cp target/onlinecompiler-1.0.0-SNAPSHOT-runner /mnt/smb/

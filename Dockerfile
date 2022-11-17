@@ -15,7 +15,7 @@ RUN chmod 755 ./quarkus-onlinecompiler
 #COPY ./nginx.conf /etc/nginx/nginx.conf
 
 
-CMD ["bash", "quarkus-onlinecompiler"]
+CMD ["./quarkus-onlinecompiler"]
 
 
 
