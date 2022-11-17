@@ -52,10 +52,12 @@ public class CmdUtils {
 
         } catch (IOException e) {
             LOGGER.error("exec CmdUtils.run failed. IOException:", e);
+            return ResultDto.FAIL(new CommandException(Arrays.toString(e.getStackTrace())));
         } catch (InterruptedException e) {
             LOGGER.error("exec CmdUtils.run failed. InterruptedException:", e);
+            return ResultDto.FAIL(new CommandException(Arrays.toString(e.getStackTrace())));
         }
-        return ResultDto.FAIL(new CommandException());
+//        return ResultDto.FAIL(new CommandException());
     }
 
     /**

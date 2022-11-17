@@ -58,7 +58,15 @@ public class OnlineCompilerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/playground/compiler")
     public ResultDto compile(CodeReq req) throws BaseAppException {
-        return getCompiler(req.getLanguage()).compile(req.getCode());
+        try {
+            return getCompiler(req.getLanguage()).compile(req.getCode());
+        }
+        catch (BaseAppException e) {
+            return ResultDto.FAIL(e);
+        }
+        catch (Exception e) {
+            return ResultDto.FAIL("服务器执行异常", e.getLocalizedMessage());
+        }
     }
 
     @POST

@@ -12,12 +12,12 @@ cp -r frontend/build/* quarkus/src/main/resources/META-INF/resources
 
 
 # 打包后端可执行文件
-cd quarkus && quarkus build --native -Dquarkus.native.container-build=true -Dquarkus.native.container-runtime=docker
+cd quarkus && quarkus build --native -Dquarkus.native.container-build=true -Dquarkus.native.container-runtime=docker && cd ..
 
 docker build -t onlinecompiler .
 
 docker tag onlinecompiler ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
-  docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
+docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
 
 #docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:v5 .
 
