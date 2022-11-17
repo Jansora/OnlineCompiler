@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # 解决中文乱码问题
 ENV LANG C.UTF-8
@@ -15,8 +15,10 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get update
 RUN apt update
 RUN apt install tzdata -y
-
-RUN apt-get install openjdk-17-jdk golang python3 nodejs -y
+RUN apt install python3 -y
+RUN apt install nodejs -y
+RUN apt install golang -y
+RUN apt install openjdk-17-jdk -y
 
 
 # 添加时区环境变量，亚洲，上海
