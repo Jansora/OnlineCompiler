@@ -10,10 +10,12 @@ https://onlinecompiler.github.jansora.com
 3. Kubernetes 部署
 # 物理机部署
 需要自备 `java jdk 17`(jdk17+) `python3`(3.6+) `golang` `nodejs` (14+) 可执行环境
-请通过 `java -version` `python3` `go version` `node -v`
+
+请通过 `java -version` `python3` `go version` `node -v` 验证运行环境
+
 需要提供足够的权限来创建临时文件以及运行权限
 
-从 release 下载
+从 release 下载 zip 文件, 解压后是一个可执行文件, 通过 `$CWD/quarkus-onlinecompiler` 直接运行即可 (赋予 755 权限)
 
 
 # Docker 部署
@@ -26,7 +28,7 @@ https://onlinecompiler.github.jansora.com
 启动镜像 `sudo docker run -d -p 9003:8080 --name onlinecompiler -v /app/data:/app/data ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1`
 
 > /app/data 为临时数据存放, 去掉也无妨
-> 
+
 浏览器输入 localhost:9003 即可看到启动成功
 
 监测日志 `docker logs -f onlinecompiler`
@@ -50,9 +52,6 @@ kubectl -f nginx-ingress-controller.yaml
 # 需要调整域名配置以适配当前 k8s 集群
 kubectl -f github-ingress.yaml
 ```
-
-
-
 
 
 > 安装教程以linux下操作为准, 但windows也支持安装, windows用户请根据以上步骤自行搭建安装教程
