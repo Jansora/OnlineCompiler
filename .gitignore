@@ -31,3 +31,4 @@ yarn.lock
 /update.py
 
 .idea
+/quarkus/src/main/resources/META-INF/resources/

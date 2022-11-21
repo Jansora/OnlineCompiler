@@ -49,6 +49,9 @@ public class FileUtils {
         FileWriter writer = null;
         boolean status = true;
         try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             //打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件,如果为 true，则将字节写入文件末尾处，而不是写入文件开始处
             writer = new FileWriter(file, append);
             writer.write(content);

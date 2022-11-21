@@ -39,6 +39,9 @@ public class OnlineCompilerResource {
     @Inject
     GoCompiler goCompiler;
 
+    @Inject
+    Share share;
+
     private Compiler getCompiler(String language) {
         if (null != language && "java".equals(language.toLowerCase(Locale.ROOT))) {
             return javaCompiler;
@@ -78,9 +81,10 @@ public class OnlineCompilerResource {
     @Path("/playground/share")
     public ResultDto share(CodeReq req) throws BaseAppException {
 
-        String cwdPath = javaCompiler.getCwd();
+        String cwdPath = this.share.getCwd();
         String fileName = UUID.randomUUID().toString();
-        FileUtils.writeFile(Paths.get(cwdPath, "share", req.getLanguage(), fileName).toFile(), req.getCode(), false);
+        FileUtils.mkdir(Paths.get(cwdPath, req.getLanguage()).toString());
+        FileUtils.writeFile(Paths.get(cwdPath, req.getLanguage(), fileName).toFile(), req.getCode(), false);
         return ResultDto.SUCCESS(fileName);
     }
 
@@ -90,9 +94,9 @@ public class OnlineCompilerResource {
     @Path("/playground/share")
     public ResultDto share(@QueryParam("share") String share, @QueryParam("language") String language) throws BaseAppException, IOException {
 
-        String cwdPath = javaCompiler.getCwd();
+        String cwdPath = this.share.getCwd();
         try {
-            String content = Files.readString(Paths.get(cwdPath, "share", language, share));
+            String content = Files.readString(Paths.get(cwdPath, language, share));
             return ResultDto.SUCCESS(content);
         }
         catch (Exception e) {
