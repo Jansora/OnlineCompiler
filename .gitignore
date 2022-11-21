@@ -32,3 +32,4 @@ yarn.lock
 
 .idea
 /quarkus/src/main/resources/META-INF/resources/
+/frontend/build/
