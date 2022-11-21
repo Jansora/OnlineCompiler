@@ -40,10 +40,10 @@ __  ____  __  _____   ___  __ ____  ______
 
 ## 获取镜像
 1. 创建应用数据目录 `mkdir /app && cd /app`
-2. 拉取镜像 `docker pull ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1`
+2. 拉取镜像 `docker pull ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2`
 
 ## 部署到 docker
-启动镜像 `sudo docker run -d -p 9003:8080 --name onlinecompiler -v /app/data:/app/data ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1`
+启动镜像 `sudo docker run -d -p 9003:8080 --name onlinecompiler -v /app/data:/app/data ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2`
 
 > /app/data 为临时数据存放, 去掉也无妨
 
