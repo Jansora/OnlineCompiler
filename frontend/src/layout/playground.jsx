@@ -187,10 +187,11 @@ const Playground = (props) => {
           const { data } = response;
           if (data.status){
             origin = window.location.origin
-            const url = `${origin}/${language}?share=${data.data}&language=${language}&embed=true`
+            const url = `${origin}/#${language}?share=${data.data}&language=${language}&embed=true`
             copyToClipboard(url)
             setShareValue(url)
-          } else {
+          }
+          else {
           }
         }).catch( e => {
         setResult("网络错误或服务器异常...")

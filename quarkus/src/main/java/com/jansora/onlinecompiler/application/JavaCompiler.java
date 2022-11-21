@@ -46,8 +46,7 @@ public class JavaCompiler implements Compiler {
 //                    " && " + operation + " CLASSPATH=" + cwdPath +
 //                    " && javac " + filePath +
 //                    " && java -Dfile.encoding=UTF-8 " + filename;
-            ResultDto result = CmdUtils.syncRun(cwdPath, "java", "-Dfile.encoding=UTF-8", filename);
-            return result;
+            return CmdUtils.syncRun(cwdPath, "java", "-Dfile.encoding=UTF-8", filename);
         }
 
         throw new CommandException();

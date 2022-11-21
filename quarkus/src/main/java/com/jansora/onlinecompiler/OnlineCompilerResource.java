@@ -6,6 +6,8 @@ import com.jansora.onlinecompiler.exception.BaseAppException;
 import com.jansora.onlinecompiler.payload.CodeReq;
 import com.jansora.onlinecompiler.payload.ResultDto;
 import com.jansora.onlinecompiler.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,8 +24,8 @@ import java.util.UUID;
  * @date: 2022-11-16 11:36:42
  */
 @Path("/api")
-
 public class OnlineCompilerResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OnlineCompilerResource.class);
 
     @Inject
     JavaCompiler javaCompiler;
@@ -62,6 +64,7 @@ public class OnlineCompilerResource {
             return getCompiler(req.getLanguage()).compile(req.getCode());
         }
         catch (BaseAppException e) {
+            LOGGER.error("compile. IOException:", e);
             return ResultDto.FAIL(e);
         }
         catch (Exception e) {
@@ -82,7 +85,7 @@ public class OnlineCompilerResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/playground/share")
     public ResultDto share(@QueryParam("share") String share, @QueryParam("language") String language) throws BaseAppException, IOException {
