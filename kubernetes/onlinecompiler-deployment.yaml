@@ -21,10 +21,10 @@ spec:
 
       containers:
         - name: onlinecompiler
-          image: ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.1
+          image: ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2
           imagePullPolicy: Always
           ports:
-            - containerPort: 9003
+            - containerPort: 8080
           volumeMounts:
             - name: nfs-pvc
               subPath: 'onlinecompiler'

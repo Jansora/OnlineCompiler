@@ -60,6 +60,7 @@ git clone https://github.com/Jansora/OnlineCompiler.git
 cd OnlineCompiler/kubernetes
 
 # 部署 deployment
+# 如果不需要存储 share 数据无需外挂 pvc
 kubectl -f onlinecompiler-deployment.yaml
 # 部署 service
 kubectl -f onlinecompiler-service.yaml
