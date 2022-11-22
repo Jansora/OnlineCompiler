@@ -6,7 +6,7 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY ./quarkus/target/onlinecompiler-1.0.0-SNAPSHOT-runner ./quarkus-onlinecompiler
+COPY ./quarkus/target/onlinecompiler-7.3-runner ./quarkus-onlinecompiler
 
 RUN chmod 755 ./quarkus-onlinecompiler
 #COPY ./frontend ./frontend

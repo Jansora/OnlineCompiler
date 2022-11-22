@@ -1,6 +1,8 @@
 package com.jansora.onlinecompiler.payload;
 
 import com.jansora.onlinecompiler.exception.BaseAppException;
+import com.jansora.onlinecompiler.exception.transform.FormatException;
+import com.jansora.onlinecompiler.util.JsonUtils;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -134,5 +136,13 @@ public class ResultDto implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        try {
+            return JsonUtils.toJson(this);
+        } catch (FormatException e) {
+            return super.toString();
+        }
+    }
 }
 

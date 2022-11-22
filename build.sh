@@ -11,18 +11,23 @@ cd frontend && yarn && yarn build && cd ..
 cp -r frontend/build/* quarkus/src/main/resources/META-INF/resources
 
 
+
 # 打包后端可执行文件
+rm -rf quarkus/target
 cd quarkus && quarkus build --native -Dquarkus.native.container-build=true -Dquarkus.native.container-runtime=docker && cd ..
 
 docker build -t onlinecompiler .
 
-docker tag onlinecompiler ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2
-docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2
+docker tag onlinecompiler ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.3
+docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.3
 
-#docker push ccr.ccs.tencentyun.com/jansora/onlinecompiler:v5 .
+
+
+
+# 构建 docker命令
+
+cp target/onlinecompiler-7.3-runner /mnt/smb/
+zip /mnt/smb/onlinecompiler-7.3-runner.zip /mnt/smb/onlinecompiler-7.3-runner
 
 
 #docker run --rm -it --entrypoint bash ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2
-
-
-#cp target/onlinecompiler-1.0.0-SNAPSHOT-runner /mnt/smb/
