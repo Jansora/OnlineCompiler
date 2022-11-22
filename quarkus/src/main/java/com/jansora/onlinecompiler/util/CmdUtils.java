@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
@@ -29,24 +30,31 @@ public class CmdUtils {
      */
     public static ResultDto syncRun(String dirPath, String... cmd) {
         try {
-            System.out.println("cmd exec dir: " + dirPath + "\n cmd:");
-            System.out.println(Arrays.toString(cmd));
+            UUID uuid = UUID.randomUUID();
+            LOGGER.info("CMD sync run: uuid: {} \n cmd: [{}] \n pwd: [{}]", uuid, Arrays.toString(cmd), dirPath);
+
             Process process = Runtime.getRuntime().exec(cmd, null, new File(dirPath));
 
+            int exitCode = process.waitFor();
+            boolean status = exitCode == 0;
+
             BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    new BufferedReader(new InputStreamReader(status ? process.getInputStream() : process.getErrorStream()));
 
             StringBuilder sb = new StringBuilder();
             String line = "";
             while ((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
             }
-            int exitCode = process.waitFor();
-            boolean status = exitCode == 0;
-            ResultDto result = status ? ResultDto.SUCCESS() : ResultDto.FAIL(new CommandException());
-            result.setData(sb.toString());
-            System.out.println("cmd exec result: " + result.getData());
 
+//            boolean status = exitCode == 0;
+
+//            try (final BufferedReader b = new BufferedReader(new InputStreamReader(status ? process.getInputStream() : process.getErrorStream()))) {
+
+            ResultDto result = status ? ResultDto.SUCCESS(sb.toString()) : ResultDto.FAIL(new CommandException(sb.toString()));
+
+
+            LOGGER.info("CMD sync run: uuid: [{}] \n  result: [{}]", Arrays.toString(cmd), result);
             return result;
 
 
