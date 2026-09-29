@@ -1,79 +1,36 @@
 # OnlineCompiler
-支持在线运行的代码演练场(Playground), 基于React + Quarkus (Grallvm) 构建, 目前已支持Java, Golang, Python, Nodejs, Javascript等.
 
-# 在线 demo
-https://onlinecompiler.github.jansora.com
+基于 Next.js 的在线代码演练场：Monaco 在线编辑，服务端执行 Java、Python、Go、JavaScript、Node.js、SQLite；每次运行写入 PostgreSQL，分享链接指向执行代码库中的永久快照。
 
-部署方案分为三种
-1. 物理机部署
-2. Docker 部署
-3. Kubernetes 部署
-# 物理机部署
-> 需要自备 `java jdk 17`(jdk17+) `python3`(3.6+) `golang` `nodejs` (14+) 可执行环境
+## 本地运行
 
-> 请通过 `java -version` `python3` `go version` `node -v` 验证运行环境
+需要 Node.js 20.9+、PostgreSQL，以及要使用的语言对应的 `java`（JDK 17+）、`python3`、`go`、`sqlite3` 命令。JavaScript 和 Node.js 使用当前 Node.js 可执行文件。
 
-> 需要提供足够的权限来创建临时文件以及运行权限
-
-下载主分支代码
-1. 编译前端静态资源 `cd frontend && yarn build`  (需要 nodejs npm 环境支持)
-2. 拷贝前端静态资源到后端文件夹 `cp -r frontend/build/* quarkus/src/main/resources/META-INF/resources`
-3. 编译后端可执行文件 `cd quarkus && quarkus build --native` 
-> 编译 docker 镜像内可用的可执行文件请使用命令 `cd quarkus && quarkus build --native -Dquarkus.native.container-build=true -Dquarkus.native.container-runtime=docker`
-4. 执行 `./quarkus/target/onlinecompiler-1.0.0-SNAPSHOT-runner` 应用即可正常启动
-
-启动成功日志如下
 ```bash
-root@parallels-Parallels-Virtual-Platform:/data/Github/OnlineCompiler/quarkus/target# ./onlinecompiler-1.0.0-SNAPSHOT-runner 
-__  ____  __  _____   ___  __ ____  ______ 
- --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
- -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
---\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
-2022-11-20 22:18:26,451 INFO  [io.quarkus] (main) onlinecompiler 1.0.0-SNAPSHOT native (powered by Quarkus 2.14.0.Final) started in 1.008s. Listening on: http://0.0.0.0:8080
-2022-11-20 22:18:26,513 INFO  [io.quarkus] (main) Profile prod activated. 
-2022-11-20 22:18:26,513 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy-reactive, resteasy-reactive-jackson, smallrye-context-propagation, vertx]
+cp .env.example .env.local
+# 在 .env.local 中填写 DATABASE_URL；REDIS_URL 可不填
+npm ci
+npm run dev
 ```
 
-访问 http://localhost:8080 即可正常使用
+打开 <http://localhost:3000>。生产构建使用 `npm run build && npm run start`。Dockerfile 已同步到 Next.js 架构；此环境不提供 Docker 运行时，因此未执行镜像构建。
 
-# Docker 部署
+| 变量 | 用途 | 默认值 |
+| --- | --- | --- |
+| `DATABASE_URL` | 必填；PostgreSQL 连接串。首次访问记录时创建 `playground_code_records` 表和索引 | 无 |
+| `REDIS_URL` | 可选；缓存最近 50 条代码记录 5 秒。连接失败时回退到 PostgreSQL | 无 |
+| `RUN_TIMEOUT_MS` | 每次运行的总超时，限制在 1000–30000 ms | `15000` |
+| `RUN_MAX_OUTPUT_BYTES` | stdout 和 stderr 总上限，限制在 1024–262144 字节 | `65536` |
+| `RUNNER_UID` / `RUNNER_GID` | 可选；以指定的非特权 UID/GID 执行代码。Dockerfile 默认使用 10001 | 无 |
 
-## 获取镜像
-1. 创建应用数据目录 `mkdir /app && cd /app`
-2. 拉取镜像 `docker pull ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2`
+运行 API：`POST /api/runs`，请求体为 `{ "language": "python", "code": "print(1)" }`。记录列表：`GET /api/runs`；分享快照：`POST /api/shares`；代码库：`/library`；记录详情：`/runs/:id`。支持语言 ID：`java`、`python`、`go`、`javascript`、`node`、`sql`。接受的运行请求会先写入 `running` 记录，再执行并更新输出与状态。源码最大 64 KiB。
 
-## 部署到 docker
-启动镜像 `sudo docker run -d -p 9003:8080 --name onlinecompiler -v /app/data:/app/data ccr.ccs.tencentyun.com/jansora/onlinecompiler:7.2`
+## 执行边界
 
-> /app/data 为临时数据存放, 去掉也无妨
+命令由服务端白名单选择，通过 `spawn` 直接执行（不使用 shell）。每次运行使用独立临时目录；stdout/stderr 有总上限；超时或输出超限时终止进程组，结束后清理目录。SQLite 只接受 SQL，不接受 CLI 点命令（如 `.shell` 和 `.read`）。
 
-浏览器输入 localhost:9003 即可看到启动成功
+**超时和临时目录不是安全沙箱。** 用户代码仍能访问运行账户可访问的文件与网络。公开部署前，请把执行器放到独立、受限的运行环境，隔离应用数据库和凭据，并配置网络、CPU、内存及并发限制。当前应用适合可信用户或隔离的内网环境；不要直接作为不受信任的公开代码执行服务。
 
-监测日志 `docker logs -f onlinecompiler`
+## 迁移说明
 
-## kubernetes 部署
-> kubernetes 1.19 版本
-参考 kubernetes 子目录
-deployment -> service -> yaml 部署
-```
-git clone https://github.com/Jansora/OnlineCompiler.git
-cd OnlineCompiler/kubernetes
-
-# 部署 deployment
-# 如果不需要存储 share 数据无需外挂 pvc
-kubectl -f onlinecompiler-deployment.yaml
-# 部署 service
-kubectl -f onlinecompiler-service.yaml
-
-# 部署网关
-kubectl -f nginx-ingress-controller.yaml
-
-# 部署网关配置
-# 需要调整域名配置以适配当前 k8s 集群
-kubectl -f github-ingress.yaml
-```
-
-
-> 安装教程以linux下操作为准, 但windows也支持安装, windows用户请根据以上步骤自行搭建安装教程
-
-
+旧版 CRA 前端和 Quarkus 后端已经移除。旧版 Java、Python、Go、Node 在 Quarkus 中执行；JavaScript 和 SQL 在浏览器中执行；分享内容是本地文件。本版统一从 Next.js 服务端运行和记录，旧文件分享与新 PostgreSQL 记录没有自动迁移。
