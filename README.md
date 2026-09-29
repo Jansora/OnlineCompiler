@@ -15,6 +15,12 @@ npm run dev
 
 打开 <http://localhost:3000>。生产构建使用 `npm run build && npm run start`。Dockerfile 已同步到 Next.js 架构；此环境不提供 Docker 运行时，因此未执行镜像构建。
 
+## GHCR 镜像
+
+推送到 `master` 后，GitHub Actions 会构建并发布 `ghcr.io/jansora/onlinecompiler:latest` 和对应的 `sha-<短提交号>` 标签。推送 `v*` 标签时发布同名版本标签及 SHA 标签；也可以在 Actions 页面手动运行工作流。工作流使用仓库自带的 `GITHUB_TOKEN`，无需额外配置镜像仓库凭据。
+
+部署时为容器提供 `DATABASE_URL`，可按需提供 `REDIS_URL`；镜像本身不包含本地 `.env` 文件。
+
 | 变量 | 用途 | 默认值 |
 | --- | --- | --- |
 | `DATABASE_URL` | 必填；PostgreSQL 连接串。首次访问记录时创建 `playground_code_records` 表和索引 | 无 |
