@@ -8,7 +8,7 @@
 
 ```bash
 cp .env.example .env.local
-# 在 .env.local 中填写 DATABASE_URL；REDIS_URL 可不填
+# 在 .env.local 中填写 DATABASE_URL、SUPER_ADMIN_USERNAME 和 SUPER_ADMIN_PASSWORD；REDIS_URL 可不填
 npm ci
 npm run dev
 ```
@@ -23,13 +23,17 @@ npm run dev
 
 | 变量 | 用途 | 默认值 |
 | --- | --- | --- |
-| `DATABASE_URL` | 必填；PostgreSQL 连接串。首次访问记录时创建 `playground_code_records` 表和索引 | 无 |
-| `REDIS_URL` | 可选；缓存最近 50 条代码记录 5 秒。连接失败时回退到 PostgreSQL | 无 |
+| `DATABASE_URL` | 必填；PostgreSQL 连接串。自动创建账号、会话和记录表，并给旧记录表添加用户归属列 | 无 |
+| `SUPER_ADMIN_USERNAME` / `SUPER_ADMIN_PASSWORD` | 超级管理员用户名和初始密码；服务启动时账号不存在则创建。已有管理员密码不会因修改环境变量自动更新 | 无 |
+| `SESSION_MAX_AGE_DAYS` | 登录会话有效天数，范围为 1–3650 的整数 | `365` |
+| `REDIS_URL` | 可选；缓存管理员最近 50 条代码记录 5 秒。连接失败时回退到 PostgreSQL | 无 |
 | `RUN_TIMEOUT_MS` | 每次运行的总超时，限制在 1000–30000 ms | `15000` |
 | `RUN_MAX_OUTPUT_BYTES` | stdout 和 stderr 总上限，限制在 1024–262144 字节 | `65536` |
 | `RUNNER_UID` / `RUNNER_GID` | 可选；以指定的非特权 UID/GID 执行代码。Dockerfile 默认使用 10001 | 无 |
 
 运行 API：`POST /api/runs`，请求体为 `{ "language": "python", "code": "print(1)" }`。记录列表：`GET /api/runs`；分享快照：`POST /api/shares`；代码库：`/library`；记录详情：`/runs/:id`。支持语言 ID：`java`、`python`、`go`、`javascript`、`node`、`sql`。接受的运行请求会先写入 `running` 记录，再执行并更新输出与状态。源码最大 64 KiB。
+
+注册和登录只需要用户名、密码，无需邮箱验证。普通用户只能在代码库和运行记录详情中查看自己的记录；超级管理员可查看全部记录。匿名访客仍可运行代码和生成公开分享链接，但匿名运行记录不归属账号，只有超级管理员能在代码库中查看。旧记录也视为无归属记录。分享快照的直达链接保持公开。会话由数据库保存，浏览器只存储 HttpOnly 会话 Cookie；退出登录会删除当前会话。
 
 ## 执行边界
 

@@ -21,6 +21,7 @@ export type CodeRecord = {
   exit_code: number | null;
   duration_ms: number | null;
   created_at: string;
+  user_id: string | null;
 };
 
 let pool: Pool | undefined;
@@ -52,12 +53,19 @@ async function ensureSchema() {
     stderr TEXT NOT NULL DEFAULT '',
     exit_code INTEGER,
     duration_ms INTEGER,
+    user_id UUID,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )`,
     )
     .then(async () => {
       await getPool().query(
+        "ALTER TABLE playground_code_records ADD COLUMN IF NOT EXISTS user_id UUID",
+      );
+      await getPool().query(
         "CREATE INDEX IF NOT EXISTS playground_code_records_created_at ON playground_code_records(created_at DESC)",
+      );
+      await getPool().query(
+        "CREATE INDEX IF NOT EXISTS playground_code_records_user_created_at ON playground_code_records(user_id, created_at DESC)",
       );
     })
     .catch((error) => {
@@ -70,13 +78,14 @@ async function ensureSchema() {
 export async function createRun(
   language: Language,
   code: string,
+  userId: string | null,
 ): Promise<CodeRecord> {
   await ensureSchema();
   const id = randomUUID();
   const { rows } = await getPool().query<CodeRecord>(
     `INSERT INTO playground_code_records
-    (id, kind, language, code, status) VALUES ($1, 'run', $2, $3, 'running') RETURNING *`,
-    [id, language, code],
+    (id, kind, language, code, status, user_id) VALUES ($1, 'run', $2, $3, 'running', $4) RETURNING *`,
+    [id, language, code, userId],
   );
   await invalidateRecords();
   return rows[0];
@@ -106,13 +115,14 @@ export async function completeRun(
 export async function saveShare(
   language: Language,
   code: string,
+  userId: string | null,
 ): Promise<CodeRecord> {
   await ensureSchema();
   const id = randomUUID();
   const { rows } = await getPool().query<CodeRecord>(
     `INSERT INTO playground_code_records
-    (id, kind, language, code, status) VALUES ($1, 'share', $2, $3, 'shared') RETURNING *`,
-    [id, language, code],
+    (id, kind, language, code, status, user_id) VALUES ($1, 'share', $2, $3, 'shared', $4) RETURNING *`,
+    [id, language, code, userId],
   );
   await invalidateRecords();
   return rows[0];
@@ -127,16 +137,22 @@ export async function getRecord(id: string): Promise<CodeRecord | undefined> {
   return rows[0];
 }
 
-export async function listRecords(limit = 50): Promise<CodeRecord[]> {
+export async function listRecords(
+  userId: string,
+  isAdmin: boolean,
+  limit = 50,
+): Promise<CodeRecord[]> {
   await ensureSchema();
-  if (limit === 50) {
+  if (isAdmin && limit === 50) {
     const cached = await readCachedRecords<CodeRecord[]>();
     if (cached) return cached;
   }
   const { rows } = await getPool().query<CodeRecord>(
-    "SELECT * FROM playground_code_records ORDER BY created_at DESC, id DESC LIMIT $1",
-    [Math.max(1, Math.min(100, limit))],
+    `SELECT * FROM playground_code_records
+    WHERE ($2::boolean OR user_id = $3::uuid)
+    ORDER BY created_at DESC, id DESC LIMIT $1`,
+    [Math.max(1, Math.min(100, limit)), isAdmin, userId],
   );
-  if (limit === 50) await cacheRecords(rows);
+  if (isAdmin && limit === 50) await cacheRecords(rows);
   return rows;
 }

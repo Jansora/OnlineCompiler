@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowUpRight, BookOpenText, Clock3 } from "lucide-react";
 import { languages, type Language } from "@/lib/languages";
 import { listRecords, type CodeRecord } from "@/lib/server/store";
+import { currentUser } from "@/lib/server/auth";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -14,10 +16,12 @@ function formatDate(value: string) {
 }
 
 export default async function LibraryPage() {
+  const user = await currentUser();
+  if (!user) redirect("/auth/login?next=%2Flibrary");
   let records: CodeRecord[];
   let loadError = false;
   try {
-    records = await listRecords();
+    records = await listRecords(user.id, user.is_admin);
   } catch {
     records = [];
     loadError = true;
@@ -31,7 +35,11 @@ export default async function LibraryPage() {
             YOUR WORKSPACE <span className="eyebrow-slash">/</span> LIBRARY
           </div>
           <h1>你的代码库。</h1>
-          <p>运行记录与分享快照都保存在这里。</p>
+          <p>
+            {user.is_admin
+              ? "查看所有用户的运行记录与分享快照。"
+              : "你的运行记录与分享快照都保存在这里。"}
+          </p>
         </div>
         <Link className="library-link" href="/python">
           返回演练场 <ArrowUpRight size={16} />
@@ -51,7 +59,7 @@ export default async function LibraryPage() {
       ) : records.length === 0 ? (
         <div className="empty-state">
           <strong>这里还是空的</strong>
-          <p>运行一段代码，或分享当前编辑内容，记录就会出现在这里。</p>
+          <p>登录后运行一段代码，或分享当前编辑内容，记录就会出现在这里。</p>
           <Link className="primary-button" href="/python">
             开始编写 <ArrowUpRight size={16} />
           </Link>

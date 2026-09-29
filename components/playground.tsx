@@ -28,9 +28,11 @@ type ApiResponse = { record?: CodeRecord; error?: string; url?: string };
 export function Playground({
   language,
   initialCode,
+  isAuthenticated,
 }: {
   language: Language;
   initialCode: string;
+  isAuthenticated: boolean;
 }) {
   const router = useRouter();
   const config = languages[language];
@@ -241,7 +243,7 @@ export function Playground({
             <span>
               <Clock3 size={13} /> 每次运行都会保存到代码库
             </span>
-            {record ? (
+            {record && isAuthenticated ? (
               <Link href={`/runs/${record.id}`}>
                 查看记录 <ArrowUpRight size={13} />
               </Link>

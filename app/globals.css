@@ -61,7 +61,8 @@ a {
   text-decoration: none;
 }
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+input:focus-visible {
   outline: 2px solid var(--link);
   outline-offset: 3px;
 }
@@ -103,6 +104,89 @@ button:focus-visible {
   gap: 4px;
   color: var(--body);
   flex: none;
+}
+.account-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 4px;
+  white-space: nowrap;
+}
+.account-nav span {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.account-nav button {
+  min-height: 40px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--body);
+}
+.account-nav button:hover {
+  border-color: #d0d0d0;
+}
+.auth-page {
+  min-height: min(660px, calc(100dvh - 160px));
+  display: grid;
+  place-items: center;
+  padding: 48px 0;
+}
+.auth-card {
+  width: min(100%, 420px);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+.auth-card h1 {
+  margin: 16px 0 4px;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.04em;
+}
+.auth-card > p {
+  margin: 0 0 24px;
+  color: var(--body);
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.auth-form label {
+  font-weight: 500;
+}
+.auth-form input {
+  width: 100%;
+  min-height: 44px;
+  margin-bottom: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+}
+.auth-form input:hover {
+  border-color: #cfcfcf;
+}
+.auth-form .primary-button {
+  min-height: 44px;
+  margin-top: 8px;
+}
+.auth-form .auth-error {
+  margin: 0;
+  color: var(--error);
+}
+.auth-card .auth-switch {
+  margin: 24px 0 0;
+  text-align: center;
+}
+.auth-switch a {
+  color: var(--link);
 }
 .topnav a {
   display: inline-flex;
@@ -924,6 +1008,19 @@ button:focus-visible {
   }
   .topnav a:last-child {
     margin-left: 0;
+  }
+  .topnav .auth-nav-link {
+    width: auto;
+    min-width: 44px;
+    padding: 0 8px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .account-nav {
+    margin: 0;
+  }
+  .account-nav span {
+    display: none;
   }
   .language-dock {
     width: 100%;

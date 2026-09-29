@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { saveShare } from "@/lib/server/store";
 import { MAX_CODE_BYTES, parseCodeRequest } from "@/lib/server/validation";
 import { readJsonRequest, RequestTooLargeError } from "@/lib/server/request";
+import { currentUser } from "@/lib/server/auth";
 
 export const runtime = "nodejs";
 
@@ -30,7 +31,12 @@ export async function POST(request: Request) {
     );
   }
   try {
-    const record = await saveShare(input.language, input.code);
+    const user = await currentUser();
+    const record = await saveShare(
+      input.language,
+      input.code,
+      user?.id ?? null,
+    );
     return NextResponse.json(
       { record, url: `/runs/${record.id}` },
       { status: 201 },

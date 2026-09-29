@@ -3,13 +3,19 @@ import { executeCode, type ExecutionResult } from "@/lib/server/runner";
 import { completeRun, createRun, listRecords } from "@/lib/server/store";
 import { MAX_CODE_BYTES, parseCodeRequest } from "@/lib/server/validation";
 import { readJsonRequest, RequestTooLargeError } from "@/lib/server/request";
+import { currentUser } from "@/lib/server/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    return NextResponse.json({ records: await listRecords() });
+    const user = await currentUser();
+    if (!user)
+      return NextResponse.json({ error: "请先登录。" }, { status: 401 });
+    return NextResponse.json({
+      records: await listRecords(user.id, user.is_admin),
+    });
   } catch (error) {
     console.error(
       "Listing records failed",
@@ -47,7 +53,12 @@ export async function POST(request: Request) {
     );
   }
   try {
-    const pending = await createRun(input.language, input.code);
+    const user = await currentUser();
+    const pending = await createRun(
+      input.language,
+      input.code,
+      user?.id ?? null,
+    );
     let result: ExecutionResult;
     try {
       result = await executeCode(input.language, input.code);

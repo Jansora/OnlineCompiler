@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Clock3, Terminal } from "lucide-react";
 import { languages } from "@/lib/languages";
 import { getRecord } from "@/lib/server/store";
 import { ShareLink } from "@/components/share-link";
+import { currentUser } from "@/lib/server/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +18,12 @@ export default async function RecordPage({
   if (!/^[0-9a-f-]{36}$/.test(id)) notFound();
   const record = await getRecord(id);
   if (!record) notFound();
+  const user = await currentUser();
+  if (record.kind === "run" && !user) {
+    redirect(`/auth/login?next=${encodeURIComponent(`/runs/${id}`)}`);
+  }
+  if (record.kind === "run" && !user?.is_admin && record.user_id !== user?.id)
+    notFound();
   const language = languages[record.language];
 
   return (

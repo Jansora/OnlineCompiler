@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, BookOpenText, Github } from "lucide-react";
 import { LanguageDock } from "@/components/language-dock";
+import { currentUser } from "@/lib/server/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,9 +10,10 @@ export const metadata: Metadata = {
   description: "写一段代码，立即运行，保存每一次实验。",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const user = await currentUser();
   return (
     <html lang="zh-CN">
       <body>
@@ -37,6 +39,22 @@ export default function RootLayout({
               <Link href="/library">
                 <BookOpenText size={16} /> 代码库
               </Link>
+              {user ? (
+                <form
+                  action="/api/auth/logout"
+                  method="post"
+                  className="account-nav"
+                >
+                  <span title={user.is_admin ? "超级管理员" : "当前用户"}>
+                    {user.username}
+                  </span>
+                  <button type="submit">退出</button>
+                </form>
+              ) : (
+                <Link className="auth-nav-link" href="/auth/login">
+                  登录 / 注册
+                </Link>
+              )}
               <a
                 href="https://github.com/Jansora/OnlineCompiler"
                 target="_blank"
