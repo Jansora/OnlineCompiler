@@ -77,7 +77,7 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
   padding: 0 max(24px, calc((100vw - 1200px) / 2));
   background: var(--canvas);
 }
@@ -89,6 +89,7 @@ button:focus-visible {
   font-weight: 600;
   letter-spacing: -0.045em;
   white-space: nowrap;
+  flex: none;
 }
 .brand-mark {
   width: 21px;
@@ -101,6 +102,7 @@ button:focus-visible {
   align-items: center;
   gap: 4px;
   color: var(--body);
+  flex: none;
 }
 .topnav a {
   display: inline-flex;
@@ -129,24 +131,23 @@ button:focus-visible {
 .topnav a:last-child:hover {
   border-color: #d0d0d0;
 }
-.dock-wrap {
-  border-bottom: 1px solid var(--line);
-  background: var(--card);
-}
 .language-dock {
-  width: min(100% - 48px, 1200px);
-  min-height: 60px;
-  margin: 0 auto;
+  min-width: 0;
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 2px;
   overflow-x: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+}
+.language-dock::-webkit-scrollbar {
+  display: none;
 }
 .dock-title {
   flex: none;
-  padding-right: 20px;
-  margin-right: 10px;
+  padding-right: 12px;
+  margin-right: 4px;
   border-right: 1px solid var(--line);
   color: var(--mute);
   font: 500 12px/20px var(--font-mono);
@@ -154,12 +155,12 @@ button:focus-visible {
   letter-spacing: 0.03em;
 }
 .dock-item {
-  min-height: 38px;
+  min-height: 40px;
   flex: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0 12px;
+  padding: 0 9px;
   border: 1px solid transparent;
   border-radius: 6px;
   color: var(--body);
@@ -195,10 +196,56 @@ button:focus-visible {
   padding: 0 0 96px;
   flex: 1;
 }
+.app-shell:has(.workspace) {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.main-content:has(.workspace) {
+  min-height: 0;
+  padding-bottom: 0;
+}
+.app-shell:has(.workspace) .site-footer {
+  display: none;
+}
 .workspace,
 .library-page,
 .detail-page {
   width: 100%;
+}
+.workspace {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.workspace-header {
+  height: 60px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.workspace-intro {
+  min-width: 0;
+  flex: none;
+}
+.workspace-intro h1 {
+  margin: 0 0 2px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+.workspace-intro p {
+  margin: 0;
+  color: var(--mute);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
 }
 .page-heading {
   position: relative;
@@ -291,9 +338,11 @@ button:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 20px;
+  min-width: 0;
+  margin-bottom: 0;
 }
 .action-copy {
+  flex: none;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -308,6 +357,7 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: none;
 }
 .text-button,
 .secondary-button,
@@ -361,6 +411,16 @@ button:focus-visible {
   grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
   gap: 16px;
 }
+.workspace-grid {
+  flex: 1;
+  min-height: 0;
+  padding: 16px 0 24px;
+}
+.workspace-grid .panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 .panel {
   min-width: 0;
   overflow: hidden;
@@ -370,12 +430,19 @@ button:focus-visible {
   box-shadow: 0 1px 1px #00000008;
 }
 .panel-topline {
-  height: 48px;
+  min-height: 48px;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
   border-bottom: 1px solid var(--line);
+}
+.panel-heading-group {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 .panel-label {
   font-size: 14px;
@@ -387,24 +454,22 @@ button:focus-visible {
   color: var(--mute);
   font: 500 12px/16px var(--font-mono);
 }
-.editor-toolbar,
-.result-toolbar {
-  height: 44px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  background: #fcfcfc;
-}
 .file-tab {
-  height: 44px;
-  padding: 0 8px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid var(--ink);
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
   font: 500 12px/16px var(--font-mono);
+}
+.result-terminal {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line);
+  color: var(--body);
+  font-size: 12px;
 }
 .file-icon {
   display: grid;
@@ -422,8 +487,8 @@ button:focus-visible {
 }
 .editor-area,
 .result-body {
-  height: clamp(380px, 47vh, 520px);
-  min-height: 380px;
+  flex: 1;
+  min-height: 0;
   background: var(--card);
 }
 .editor-loading {
@@ -446,19 +511,9 @@ button:focus-visible {
 .footer-divider {
   margin: 0 5px;
 }
-.result-toolbar {
-  color: var(--body);
-  font-size: 12px;
-  font-weight: 500;
-}
-.result-toolbar span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
 .icon-button {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
   border: 1px solid transparent;
@@ -770,7 +825,57 @@ button:focus-visible {
 .site-footer a:hover {
   color: var(--link);
 }
+@media (max-width: 1180px) {
+  .workspace-header {
+    height: auto;
+    min-height: 60px;
+    padding: 8px 0;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .workspace-header .action-bar {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+@media (max-width: 1050px) {
+  .topbar {
+    height: 108px;
+    flex-wrap: wrap;
+    align-content: center;
+    row-gap: 0;
+  }
+  .language-dock {
+    order: 3;
+    flex-basis: 100%;
+    height: 44px;
+    justify-content: flex-start;
+  }
+  .topnav {
+    margin-left: auto;
+  }
+}
 @media (max-width: 900px) {
+  .app-shell:has(.workspace) {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .workspace {
+    height: auto;
+  }
+  .workspace-header {
+    height: auto;
+    min-height: 60px;
+    padding: 12px 0;
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+  .workspace-grid {
+    padding: 16px 0 32px;
+  }
   .workspace-grid,
   .detail-grid {
     grid-template-columns: 1fr;
@@ -787,10 +892,14 @@ button:focus-visible {
     height: 300px;
     min-height: 300px;
   }
+  .editor-area {
+    height: 380px;
+    min-height: 380px;
+  }
 }
 @media (max-width: 640px) {
   .topbar {
-    height: 60px;
+    height: 104px;
     padding: 0 16px;
   }
   .brand {
@@ -817,8 +926,8 @@ button:focus-visible {
     margin-left: 0;
   }
   .language-dock {
-    width: calc(100% - 32px);
-    min-height: 56px;
+    width: 100%;
+    min-height: 44px;
   }
   .dock-title {
     padding-right: 12px;
@@ -831,6 +940,23 @@ button:focus-visible {
   .main-content {
     width: calc(100% - 32px);
     padding-bottom: 64px;
+  }
+  .workspace-intro p {
+    white-space: normal;
+  }
+  .workspace-header .action-bar {
+    width: 100%;
+  }
+  .workspace-header .action-buttons {
+    width: 100%;
+    display: flex;
+    gap: 4px;
+  }
+  .workspace-header .action-buttons button {
+    min-width: 0;
+    flex: 1;
+    padding: 0 6px;
+    font-size: 12px;
   }
   .page-heading {
     min-height: 225px;
@@ -860,19 +986,6 @@ button:focus-visible {
   }
   .library-link {
     align-self: flex-start;
-  }
-  .action-bar {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .action-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .action-buttons .text-button {
-    grid-column: 1 / -1;
-    justify-content: flex-start;
   }
   .workspace-grid,
   .detail-grid {

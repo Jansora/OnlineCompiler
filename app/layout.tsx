@@ -31,6 +31,7 @@ export default function RootLayout({
               </svg>
               <span>OnlineCompiler</span>
             </Link>
+            <LanguageDock />
             <nav className="topnav" aria-label="主导航">
               <Link href="/python">演练场</Link>
               <Link href="/library">
@@ -46,7 +47,6 @@ export default function RootLayout({
               </a>
             </nav>
           </header>
-          <LanguageDock />
           <main className="main-content">{children}</main>
           <footer className="site-footer">
             <span>OnlineCompiler</span>

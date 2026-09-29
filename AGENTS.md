@@ -58,3 +58,13 @@
 - 保持文本与背景的可读对比度。低强调灰色只用于辅助信息、占位或禁用状态；错误、成功、运行中等状态还需文字或图标说明。
 - 对加载、空结果、成功、失败、禁用和复制反馈提供明确状态。动画应轻量，并尊重 `prefers-reduced-motion`。
 - UI 变更完成后检查桌面与窄屏布局、键盘焦点、按钮/链接语义，以及相关页面的运行和导航流程。按改动范围运行项目现有 lint、typecheck 或构建；不要把静态检查描述为浏览器视觉验收。
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

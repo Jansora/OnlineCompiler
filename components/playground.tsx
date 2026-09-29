@@ -97,82 +97,69 @@ export function Playground({
 
   return (
     <section className="workspace">
-      <div className="page-heading">
-        <div>
-          <div className="eyebrow">
-            ONLINE CODE RUNNER <span className="eyebrow-slash">/</span>{" "}
-            {config.name.toUpperCase()}
-          </div>
-          <h1>
-            写代码。
-            <br />
-            即刻看结果。
-          </h1>
+      <div className="workspace-header">
+        <div className="workspace-intro">
+          <h1>写代码。即刻看结果。</h1>
           <p>{config.description} 在浏览器中编写、运行并保存代码。</p>
         </div>
-        <Link className="library-link" href="/library">
-          浏览代码库 <ArrowUpRight size={16} />
-        </Link>
-      </div>
-
-      <div className="action-bar">
-        <div className="action-copy">
-          <span className="action-number">WRITE & RUN</span>
-          <span>代码会在服务端运行，并保存执行记录。</span>
-        </div>
-        <div className="action-buttons">
-          <button
-            className="text-button"
-            type="button"
-            onClick={() => {
-              setCode(config.sample);
-              setRecord(null);
-              setMessage("");
-            }}
-            disabled={!!busy}
-          >
-            <RotateCcw size={16} /> 重置示例
-          </button>
-          <button
-            className="secondary-button"
-            type="button"
-            onClick={share}
-            disabled={!!busy || !code.trim()}
-          >
-            {busy === "share" ? (
-              <LoaderCircle className="spin" size={17} />
-            ) : (
-              <Share2 size={17} />
-            )}{" "}
-            分享代码
-          </button>
-          <button
-            className="primary-button"
-            type="button"
-            onClick={run}
-            disabled={!!busy || !code.trim()}
-          >
-            {busy === "run" ? (
-              <LoaderCircle className="spin" size={17} />
-            ) : (
-              <Play size={17} fill="currentColor" />
-            )}{" "}
-            {busy === "run" ? "运行中" : "运行代码"}
-          </button>
+        <div className="action-bar">
+          <div className="action-copy">
+            <span className="action-number">WRITE & RUN</span>
+            <span>代码会在服务端运行，并保存执行记录。</span>
+          </div>
+          <div className="action-buttons">
+            <button
+              className="text-button"
+              type="button"
+              onClick={() => {
+                setCode(config.sample);
+                setRecord(null);
+                setMessage("");
+              }}
+              disabled={!!busy}
+            >
+              <RotateCcw size={16} /> 重置示例
+            </button>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={share}
+              disabled={!!busy || !code.trim()}
+            >
+              {busy === "share" ? (
+                <LoaderCircle className="spin" size={17} />
+              ) : (
+                <Share2 size={17} />
+              )}{" "}
+              分享代码
+            </button>
+            <button
+              className="primary-button"
+              type="button"
+              onClick={run}
+              disabled={!!busy || !code.trim()}
+            >
+              {busy === "run" ? (
+                <LoaderCircle className="spin" size={17} />
+              ) : (
+                <Play size={17} fill="currentColor" />
+              )}{" "}
+              {busy === "run" ? "运行中" : "运行代码"}
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="workspace-grid">
         <section className="panel editor-panel" aria-label="代码编辑器">
           <div className="panel-topline">
-            <span className="panel-label">编辑器</span>
-            <span className="panel-meta">main.{config.extension}</span>
-          </div>
-          <div className="editor-toolbar">
-            <span className="file-tab">
-              <span className="file-icon">{config.short}</span> main.
-              {config.extension}
-            </span>
+            <div className="panel-heading-group">
+              <span className="panel-label">编辑器</span>
+              <span className="file-tab">
+                <span className="file-icon">{config.short}</span> main.
+                {config.extension}
+              </span>
+            </div>
             <span className="editor-language">{config.name}</span>
           </div>
           <div className="editor-area">
@@ -188,13 +175,12 @@ export function Playground({
 
         <section className="panel result-panel" aria-label="运行结果">
           <div className="panel-topline">
-            <span className="panel-label">运行结果</span>
-            <span className="panel-meta">OUTPUT</span>
-          </div>
-          <div className="result-toolbar">
-            <span>
-              <Terminal size={17} /> 终端输出
-            </span>
+            <div className="panel-heading-group">
+              <span className="panel-label">运行结果</span>
+              <span className="result-terminal">
+                <Terminal size={16} /> 终端输出
+              </span>
+            </div>
             <button
               className="icon-button"
               type="button"
