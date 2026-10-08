@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { languages, languageIds } from "@/lib/languages";
+import { isLanguage, languages, languageIds } from "@/lib/languages";
 
 export function LanguageDock() {
   const pathname = usePathname();
+  if (!isLanguage(pathname.slice(1))) return null;
 
   return (
     <nav className="language-dock" aria-label="选择编程语言">

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, BookOpenText, Github } from "lucide-react";
+import {
+  ArrowUpRight,
+  BookOpenText,
+  Github,
+  House,
+  Terminal,
+} from "lucide-react";
 import { LanguageDock } from "@/components/language-dock";
 import { currentUser } from "@/lib/server/auth";
 import "./globals.css";
@@ -19,11 +25,7 @@ export default async function RootLayout({
       <body>
         <div className="app-shell">
           <header className="topbar">
-            <Link
-              className="brand"
-              href="/python"
-              aria-label="OnlineCompiler 首页"
-            >
+            <Link className="brand" href="/" aria-label="OnlineCompiler 首页">
               <svg
                 className="brand-mark"
                 viewBox="0 0 28 26"
@@ -35,8 +37,13 @@ export default async function RootLayout({
             </Link>
             <LanguageDock />
             <nav className="topnav" aria-label="主导航">
-              <Link href="/python">演练场</Link>
-              <Link href="/library">
+              <Link href="/" aria-label="首页">
+                <House size={16} /> 首页
+              </Link>
+              <Link href="/playground" prefetch={false} aria-label="代码演练场">
+                <Terminal size={16} /> 演练场
+              </Link>
+              <Link href="/library" aria-label="代码库">
                 <BookOpenText size={16} /> 代码库
               </Link>
               {user ? (

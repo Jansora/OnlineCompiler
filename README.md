@@ -2,6 +2,13 @@
 
 基于 Next.js 的在线代码演练场：Monaco 在线编辑，服务端执行 Java、Python、Go、JavaScript、Node.js、SQLite；每次运行写入 PostgreSQL，分享链接指向执行代码库中的永久快照。
 
+## 页面入口
+
+- `/`：README 式项目主页，包含快速开始、支持语言、功能和账号说明。
+- `/playground`：演练场入口，跳转到默认的 Python 演练场。
+- `/:language`：各语言演练场，如 `/python`、`/java`、`/sql`。
+- `/library`：登录后查看代码记录。
+
 ## 本地运行
 
 需要 Node.js 20.9+、PostgreSQL，以及要使用的语言对应的 `java`（JDK 17+）、`python3`、`go`、`sqlite3` 命令。JavaScript 和 Node.js 使用当前 Node.js 可执行文件。
